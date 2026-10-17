@@ -21,12 +21,12 @@ git remote remove origin >nul 2>&1
 git remote add origin https://github.com/the-yadav-hariom/Air-dream-travel-tourism.git
 
 :: Check status and stage all files
-echo [3/5] Staging all project files...
-git add .
+echo [3/5] Staging all project files (including CSS, images, vercel config)...
+git add -A
 
 :: Commit
-echo [4/5] Creating commit...
-git commit -m "Air Dream Travel & Tourism website complete with 3D book cards, slider, reservation system"
+echo [4/5] Creating commit for CSS and deployment fixes...
+git commit -m "Fix CSS loading on deployed site: static headers, relative paths, .nojekyll, static package.json"
 
 :: Set branch to main and push
 echo [5/5] Pushing to main branch on GitHub...
@@ -37,11 +37,14 @@ if %ERRORLEVEL% EQU 0 (
     echo.
     echo ============================================================
     echo   SUCCESS: Code pushed to GitHub successfully!
-    echo   https://github.com/the-yadav-hariom/Air-dream-travel-tourism
+    echo   Repository: https://github.com/the-yadav-hariom/Air-dream-travel-tourism
+    echo.
+    echo   Your CSS files are now committed and will load cleanly
+    echo   on both Vercel and GitHub Pages!
     echo ============================================================
 ) else (
     echo.
-    echo [Notice] If push requires overwrite of existing files on GitHub, trying push --force...
+    echo [Notice] Trying force push to overwrite remote branch...
     git push -u origin main --force
 )
 

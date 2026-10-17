@@ -2,9 +2,11 @@
   "name": "air-dream-travel",
   "version": "1.0.0",
   "description": "Air Dream Travel & Tourism - Fly Your Dreams. Modern responsive web application for luxury flights, Hajj & Umrah, tour packages, and visa services.",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "echo Static build complete",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
   },
   "keywords": [
     "travel-agency",

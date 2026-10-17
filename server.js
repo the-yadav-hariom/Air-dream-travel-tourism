@@ -30,27 +30,10 @@ const MIME_TYPES = {
   '.ttf': 'font/ttf'
 };
 
-// Ensure user uploaded and generated card images exist locally in assets/cards
-const userUploadDir = 'C:\\Users\\hario\\.gemini\\antigravity-ide\\brain\\77e24771-f204-4317-ba9d-104dbbde6991\\.user_uploaded';
-const brainDir = 'C:\\Users\\hario\\.gemini\\antigravity-ide\\brain\\77e24771-f204-4317-ba9d-104dbbde6991';
-const cardSyncList = [
-  { src: path.join(userUploadDir, 'media_1792255830332.png'), dest: 'card1.png' },
-  { src: path.join(userUploadDir, 'media_1792255998371.jpg'), dest: 'card2.jpg' },
-  { src: path.join(userUploadDir, 'media_1792256004995.jpg'), dest: 'card3.jpg' },
-  { src: path.join(userUploadDir, 'media_1792256015178.jpg'), dest: 'card4.jpg' },
-  { src: path.join(userUploadDir, 'media_1792256043061.jpg'), dest: 'card5.jpg' },
-  { src: path.join(brainDir, 'competitive_fare_card_1792256208155.jpg'), dest: 'card6.jpg' }
-];
-
+// Ensure local cards directory exists
 try {
   const cardsDir = path.join(__dirname, 'assets', 'cards');
   if (!fs.existsSync(cardsDir)) fs.mkdirSync(cardsDir, { recursive: true });
-  cardSyncList.forEach(({ src, dest }) => {
-    const destPath = path.join(cardsDir, dest);
-    if (fs.existsSync(src)) {
-      try { fs.copyFileSync(src, destPath); } catch (err) {}
-    }
-  });
 } catch (e) {
   // Silent fallback
 }
@@ -146,19 +129,8 @@ const server = http.createServer((req, res) => {
   }
 
   // --------------------------------------------------------------------------
-  // Static File Serving & Direct Card Image Delivery
+  // Static File Serving
   // --------------------------------------------------------------------------
-  if (pathname.startsWith('/assets/cards/')) {
-    const cardDest = pathname.replace('/assets/cards/', '');
-    const matched = cardSyncList.find(c => c.dest === cardDest);
-    if (matched && fs.existsSync(matched.src)) {
-      const ext = path.extname(matched.dest).toLowerCase();
-      res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'image/jpeg' });
-      fs.createReadStream(matched.src).pipe(res);
-      return;
-    }
-  }
-
   let safePath = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
   if (safePath === '/' || safePath === '\\') {
     safePath = '/index.html';
@@ -168,7 +140,14 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA routing
+      const ext = path.extname(pathname).toLowerCase();
+      // If it's a specific asset that failed to load, return 404 instead of masked HTML
+      if (['.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.json', '.webp', '.woff', '.woff2'].includes(ext)) {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('404 Not Found: ' + pathname);
+        return;
+      }
+      // Fallback to index.html for root / unknown route navigation
       filePath = path.join(PUBLIC_DIR, 'index.html');
     }
 
