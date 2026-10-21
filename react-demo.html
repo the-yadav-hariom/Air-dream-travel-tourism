@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Borderlink Travel & Tours - React.js Live Application</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/animations.css">
+
+  <!-- React 18, ReactDOM 18 & Babel Standalone CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Air Dream Central Store -->
+  <script src="./js/store.js"></script>
+
+  <style>
+    .react-badge-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0284c7;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Root mount point for React -->
+  <div id="root"></div>
+
+  <div class="react-badge-top">
+    <i class="fa-brands fa-react fa-spin"></i> React.js Active
+  </div>
+
+  <!-- React Application Component Scripts -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const CARDS_DATA = [
+      {
+        id: 1,
+        title: 'Global Reach',
+        titleFormatted: <>Global<br />Reach</>,
+        icon: '🌍',
+        desc: 'Seamless worldwide flights & hotel packages across 150+ countries without compromising quality.',
+        image: 'assets/cards/card1.png',
+        fallback: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=700&q=80',
+        price: '$549'
+      },
+      {
+        id: 2,
+        title: 'Seamless Ticketing',
+        titleFormatted: <>Seamless<br />Ticketing</>,
+        icon: '🎫',
+        desc: 'Instant flight booking, rapid seat selection & hassle-free re-ticketing guaranteed.',
+        image: 'assets/cards/card2.jpg',
+        fallback: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=700&q=80',
+        price: '$399'
+      },
+      {
+        id: 3,
+        title: 'Spiritual Journeys',
+        titleFormatted: <>Spiritual<br />Journeys</>,
+        icon: '🕋',
+        desc: 'Certified 5-star Umrah & Hajj packages with guided Ziyarat tours and utter peace of mind.',
+        image: 'assets/cards/card3.jpg',
+        fallback: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=700&q=80',
+        price: '$1,199'
+      },
+      {
+        id: 4,
+        title: 'Visa Assistance',
+        titleFormatted: <>Visa<br />Assistance</>,
+        icon: '🛂',
+        desc: 'Hassle-free visa processing with fast embassy submissions and expert support.',
+        image: 'assets/cards/card4.jpg',
+        fallback: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=700&q=80',
+        price: '$199'
+      },
+      {
+        id: 5,
+        title: '24/7 Support',
+        titleFormatted: <>24/7<br />Support</>,
+        icon: '⏰',
+        desc: 'Round-the-clock dedicated travel care & emergency assistance whenever you need it.',
+        image: 'assets/cards/card5.jpg',
+        fallback: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80',
+        price: '$899'
+      },
+      {
+        id: 6,
+        title: 'Competitive Fare',
+        titleFormatted: <>Competitive<br />Fare</>,
+        icon: '💰',
+        desc: 'Get the best prices for your travel needs without compromising quality.',
+        image: 'assets/cards/card6.jpg',
+        fallback: 'https://images.unsplash.com/photo-1500835556837-99ac94a94552?auto=format&fit=crop&w=700&q=80',
+        price: '$449'
+      }
+    ];
+
+    function Navbar({ onOpenQuote, logoUrl }) {
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+      const [isScrolled, setIsScrolled] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 40);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      const closeMenu = () => setIsMenuOpen(false);
+
+      return (
+        <>
+          {/* Top Bar matching Image 1 */}
+          <div className="top-bar air-dream-top-bar">
+            <div className="container top-bar-inner">
+              <div className="top-bar-left">
+                <a href="tel:+971588338927" className="top-bar-phone-link">
+                  <i className="fa-solid fa-phone"></i>
+                  <span>+971 58 833 8927</span>
+                </a>
+                <a href="mailto:info@airdreamtravel.com" className="top-bar-circle-icon-btn" title="Email Us">
+                  <i className="fa-regular fa-envelope"></i>
+                </a>
+              </div>
+              <div className="top-bar-right">
+                <div className="top-bar-social-group">
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="top-bar-social-btn" title="Facebook"><i className="fa-brands fa-facebook-f"></i></a>
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="top-bar-social-btn" title="Instagram"><i className="fa-brands fa-instagram"></i></a>
+                  <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="top-bar-social-btn" title="TikTok"><i className="fa-brands fa-tiktok"></i></a>
+                  <a href="https://wa.me/971588338927" target="_blank" rel="noopener noreferrer" className="top-bar-social-btn" title="WhatsApp"><i className="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Header matching Image 1 */}
+          <header className={`main-header air-dream-header ${isScrolled ? 'scrolled' : ''}`}>
+            <div className="container header-container">
+              <a href="#hero" className="brand-logo-link air-dream-brand">
+                <img src={logoUrl || "assets/air-dream-badge.svg"} alt="Air Dream Logo" className="air-dream-header-badge" />
+                <div className="air-dream-brand-text">
+                  <span className="air-dream-brand-name">Air Dream</span>
+                  <span className="air-dream-brand-sub">TRAVEL &amp; TOURISM</span>
+                </div>
+              </a>
+
+              <nav className="desktop-nav air-dream-nav">
+                <a href="#hero" className="nav-link active">Home</a>
+                <a href="#about-us" className="nav-link">About Us</a>
+                <a href="#tours" className="nav-link">Tour - Trips</a>
+                <a href="#transfers" className="nav-link">Airport Transfer</a>
+                <a href="#gallery" className="nav-link">Gallery</a>
+                <a href="#attractions" className="nav-link">Dubai Attractions</a>
+                <a href="#testimonials" className="nav-link">Reviews</a>
+                <a href="admin.html" target="_blank" className="nav-link" style={{ color: '#0284c7', fontWeight: 700 }}>
+                  <i className="fa-solid fa-sliders"></i> Admin
+                </a>
+                <a href="#contact" className="nav-link nav-link-contact">
+                  <span className="contact-accent-icon"><i className="fa-solid fa-envelope"></i></span>
+                  <span>Contact</span>
+                </a>
+              </nav>
+
+              <div className="header-actions">
+                <a href="https://wa.me/971588338927" target="_blank" rel="noopener noreferrer" className="header-green-whatsapp-btn" title="WhatsApp">
+                  <i className="fa-brands fa-whatsapp"></i>
+                </a>
+                <button 
+                  type="button" 
+                  className={`header-dark-hamburger-btn ${isMenuOpen ? 'active' : ''}`}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  aria-label="Toggle Menu"
+                >
+                  <span className="hamburger-bar"></span>
+                  <span className="hamburger-bar"></span>
+                  <span className="hamburger-bar"></span>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Dropdown */}
+            <div className={`mobile-nav-backdrop ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
+            <aside className={`borderlink-mobile-menu ${isMenuOpen ? 'open' : ''}`}>
+              <div className="borderlink-menu-inner">
+                <div className="borderlink-menu-links">
+                  <div className="borderlink-menu-item-home">
+                    <a href="#hero" className="borderlink-nav-item active" onClick={closeMenu}>Home</a>
+                    <div className="borderlink-home-underline"></div>
+                  </div>
+                  <a href="#about-us" className="borderlink-nav-item" onClick={closeMenu}>About Us</a>
+                  <a href="#tours" className="borderlink-nav-item" onClick={closeMenu}>Tour - Trips (Salalah)</a>
+                  <a href="#transfers" className="borderlink-nav-item" onClick={closeMenu}>Airport Transfer</a>
+                  <a href="#gallery" className="borderlink-nav-item" onClick={closeMenu}>Photo Gallery</a>
+                  <a href="#attractions" className="borderlink-nav-item" onClick={closeMenu}>Top Dubai Attractions</a>
+                  <a href="#testimonials" className="borderlink-nav-item" onClick={closeMenu}>Guest Reviews</a>
+                  <a href="admin.html" target="_blank" className="borderlink-nav-item" style={{ color: '#0284c7', fontWeight: 700 }}>
+                    <i className="fa-solid fa-sliders"></i> Admin Dashboard (Edit All)
+                  </a>
+                  <a href="#contact" className="borderlink-nav-item borderlink-contact-item" onClick={closeMenu}>
+                    <span className="contact-mini-envelope"><i className="fa-solid fa-envelope"></i></span>
+                    <span>Contact (+971 58 833 8927)</span>
+                  </a>
+                </div>
+                <div className="borderlink-menu-actions">
+                  <a href="https://wa.me/971588338927" target="_blank" rel="noopener noreferrer" className="btn-borderlink-signup" style={{ textAlign: 'center', textDecoration: 'none' }}>
+                    <i className="fa-brands fa-whatsapp"></i> WhatsApp
+                  </a>
+                  <button type="button" className="btn-borderlink-login" onClick={() => { closeMenu(); onOpenQuote('Custom Quote'); }}>Quote</button>
+                </div>
+              </div>
+            </aside>
+          </header>
+        </>
+      );
+    }
+
+    function SingleLineCards({ onBookTrip }) {
+      const [openCardIndex, setOpenCardIndex] = useState(null);
+      const trackRef = useRef(null);
+
+      const scrollTrack = (direction) => {
+        if (trackRef.current) {
+          const scrollAmount = direction === 'left' ? -340 : 340;
+          trackRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      };
+
+      const handleCardClick = (index, cardElement, e) => {
+        if (e.target.closest('.card-second-opened') && !e.target.closest('.card-close-x')) {
+          return;
+        }
+
+        if (openCardIndex === index) {
+          setOpenCardIndex(null);
+        } else {
+          setOpenCardIndex(index);
+          setTimeout(() => {
+            if (cardElement) {
+              cardElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+          }, 150);
+        }
+      };
+
+      return (
+        <section className="section-padding why-choose-section" id="why-choose">
+          <div className="curved-bg-shapes">
+            <div className="bg-slant-left"></div>
+            <div className="bg-diagonal-ribbon-grey"></div>
+            <div className="bg-diagonal-ribbon-blue"></div>
+            <div className="bg-blob-1"></div>
+            <div className="bg-blob-2"></div>
+          </div>
+
+          <div className="container">
+            <div className="section-header why-header-wrap">
+              <h2 className="why-choose-heading">
+                Why Choose <span className="text-sky">Borderlink</span><br />Travel &amp; Tours?
+              </h2>
+              <p className="section-subtitle" style={{ marginTop: '10px', fontSize: '0.95rem', color: '#64748B' }}>
+                Explore our premium travel services &bull; Click any card to view full details
+              </p>
+              <div className="mobile-swipe-hint">
+                <i className="fa-solid fa-arrow-pointer"></i>
+                <span>Tap any card to view full details</span>
+              </div>
+            </div>
+
+            {/* Cards Container (Row-wise on Laptop, Column-wise on Mobile) */}
+            <div className="single-line-carousel-wrapper">
+              <div className="single-line-cards-track" ref={trackRef}>
+                {CARDS_DATA.map((card, index) => {
+                  const isOpen = openCardIndex === index;
+                  return (
+                    <div 
+                      key={card.id} 
+                      className={`single-line-card-item ${isOpen ? 'is-card-open' : ''}`}
+                      onClick={(e) => handleCardClick(index, e.currentTarget, e)}
+                    >
+                      <div className="dual-card-stage">
+                        {/* Upper Second White Card matching Reference Image 2 */}
+                        <div className="card-second-opened">
+                          <button type="button" className="card-close-x" onClick={(e) => { e.stopPropagation(); setOpenCardIndex(null); }}>&times;</button>
+                          <div className="card-second-body">
+                            <div className="card-second-icon">{card.icon}</div>
+                            <h3 className="card-second-title">{card.titleFormatted}</h3>
+                            <p className="card-second-desc">{card.desc}</p>
+                            <button 
+                              type="button" 
+                              className="btn btn-gold btn-sm card-second-cta"
+                              onClick={(e) => { e.stopPropagation(); onBookTrip(card.title, card.price); }}
+                            >
+                              <i className="fa-solid fa-plane-departure"></i> Book Trip ({card.price})
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Front Photo Card */}
+                        <div className="card-front-cover">
+                          <img src={card.image} onError={(e) => { e.target.onerror = null; e.target.src = card.fallback; }} alt={card.title} className="card-photo-img" />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function HeroSection({ onOpenQuote, wallpapers }) {
+      const activeSlide = (wallpapers && wallpapers.length > 0) ? wallpapers[0] : {
+        badge: 'Premium Flight Booking',
+        badgeIcon: 'fa-plane',
+        title: 'Fly Anywhere at the',
+        highlight: 'Best Fares',
+        desc: 'Experience seamless global connections with world-class airlines. Unlock corporate discounts, flexible baggage, and 24/7 personalized travel care.',
+        image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1920&q=80'
+      };
+
+      return (
+        <section className="hero-section" id="hero">
+          <div className="hero-slider-container">
+            <div className="hero-slide active">
+              <div className="hero-slide-bg" style={{ backgroundImage: `url('${activeSlide.image}')` }}></div>
+              <div className="hero-overlay"></div>
+              <div className="container">
+                <div className="hero-content">
+                  <div className="hero-badge"><i className={`fa-solid ${activeSlide.badgeIcon || 'fa-plane'}`}></i> {activeSlide.badge}</div>
+                  <h1 className="hero-title">{activeSlide.title} <span className="highlight-text">{activeSlide.highlight}</span></h1>
+                  <p className="hero-desc">{activeSlide.desc}</p>
+                  <div className="hero-btns">
+                    <a href="#why-choose" className="btn btn-gold"><i className="fa-solid fa-ticket"></i> Explore Deals</a>
+                    <button type="button" className="btn btn-outline-white" onClick={() => onOpenQuote('Custom Inquiry')}><i className="fa-solid fa-file-invoice"></i> Request Custom Quote</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const PARTNERS_LIST = [
+      { name: 'SereneAir', displayName: 'SereneAir', logo: 'assets/partners/serene-air.svg', cls: 'partner-logo-serene' },
+      { name: 'Saudi Arabia', displayName: 'Saudi Arabia', logo: 'assets/partners/saudi-emblem.svg', cls: 'partner-logo-saudi' },
+      { name: 'flynas', displayName: 'flynas', logo: 'assets/partners/flynas.svg', cls: 'partner-logo-flynas' },
+      { name: 'SAUDIA', displayName: 'SAUDIA', logo: 'assets/partners/saudia.svg', cls: '' },
+      { name: 'Emirates', displayName: 'Emirates', logo: 'assets/partners/emirates.svg', cls: '' },
+      { name: 'Qatar Airways', displayName: 'Qatar Airways', logo: 'assets/partners/qatar-airways.svg', cls: '' },
+      { name: 'Etihad Airways', displayName: 'Etihad Airways', logo: 'assets/partners/etihad.svg', cls: '' },
+      { name: 'flydubai', displayName: 'flydubai', logo: 'assets/partners/flydubai.svg', cls: '' },
+      { name: 'Air Arabia', displayName: 'Air Arabia', logo: 'assets/partners/air-arabia.svg', cls: '' },
+      { name: 'Gulf Air', displayName: 'Gulf Air', logo: 'assets/partners/gulf-air.svg', cls: '' }
+    ];
+
+    function PartnersSection() {
+      return (
+        <section className="partners-section" id="partners">
+          <div className="partners-marquee-container">
+            <div className="partners-carousel-track">
+              {PARTNERS_LIST.map((p, idx) => (
+                <div key={`p1-${idx}`} className="partner-card">
+                  <img src={p.logo} alt={p.name} className={`partner-logo ${p.cls}`} />
+                  <span className="partner-airline-name">{p.displayName}</span>
+                </div>
+              ))}
+              {PARTNERS_LIST.map((p, idx) => (
+                <div key={`p2-${idx}`} className="partner-card" aria-hidden="true">
+                  <img src={p.logo} alt={p.name} className={`partner-logo ${p.cls}`} />
+                  <span className="partner-airline-name">{p.displayName}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const DUBAI_ATTRACTIONS_DATA = [
+      { id: 1, name: 'Burj Khalifa', activities: '145 activities', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=700&q=80', price: '$95' },
+      { id: 2, name: 'Museum of the Future', activities: '92 activities', img: 'https://images.unsplash.com/photo-1634148545855-32a8427fefb3?auto=format&fit=crop&w=700&q=80', price: '$45' },
+      { id: 3, name: 'Desert Safari & Dunes', activities: '280 activities', img: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80', price: '$55' },
+      { id: 4, name: 'The View at The Palm', activities: '115 activities', img: 'https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=700&q=80', price: '$38' },
+      { id: 5, name: 'Dubai Frame', activities: '64 activities', img: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=700&q=80', price: '$22' },
+      { id: 6, name: 'Ain Dubai & Marina', activities: '48 activities', img: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=700&q=80', price: '$40' },
+      { id: 7, name: 'Atlantis Aquaventure', activities: '160 activities', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=700&q=80', price: '$85' },
+      { id: 8, name: 'Dubai Miracle Garden', activities: '52 activities', img: 'https://images.unsplash.com/photo-1561571994-3c3915177263?auto=format&fit=crop&w=700&q=80', price: '$28' }
+    ];
+
+    function AttractionsSection({ onBookAttraction, items }) {
+      const list = (items && items.length > 0) ? items : DUBAI_ATTRACTIONS_DATA;
+
+      return (
+        <section className="section-padding attractions-section" id="attractions">
+          <div className="container">
+            <div className="attractions-header">
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#E0F2FE', color: '#0369A1', padding: '4px 14px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px' }}>
+                <i className="fa-solid fa-star text-gold"></i> Must-Visit Landmarks
+              </div>
+              <h2 className="attractions-title">Top Dubai Attractions</h2>
+              <p className="attractions-subtitle">Explore iconic landmarks &amp; unforgettable experiences in Dubai &bull; Auto-scrolling &bull; Hover to pause &bull; Click to book</p>
+            </div>
+          </div>
+          <div className="attractions-marquee-container">
+            <div className="attractions-marquee-track">
+              {list.map((item, idx) => (
+                <div key={`att1-${item.id || idx}`} className="attraction-card" onClick={() => onBookAttraction(item.name, item.price)}>
+                  <div className="attraction-img-wrapper">
+                    <img src={item.image || item.img} alt={item.name} className="attraction-img" loading="lazy" />
+                  </div>
+                  <div className="attraction-info">
+                    <h3 className="attraction-name">{item.name}</h3>
+                    <p className="attraction-activities">{item.activities}</p>
+                    <div className="attraction-card-footer">
+                      <div className="tour-price-box">
+                        <span className="tour-price-value">{item.price || '$45'}</span>
+                        <span className="tour-price-unit">/person</span>
+                      </div>
+                      <button type="button" className="btn-book-tour">{item.btnText || 'Book Now'}</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {list.map((item, idx) => (
+                <div key={`att2-${item.id || idx}`} className="attraction-card" aria-hidden="true" onClick={() => onBookAttraction(item.name, item.price)}>
+                  <div className="attraction-img-wrapper">
+                    <img src={item.image || item.img} alt={item.name} className="attraction-img" loading="lazy" />
+                  </div>
+                  <div className="attraction-info">
+                    <h3 className="attraction-name">{item.name}</h3>
+                    <p className="attraction-activities">{item.activities}</p>
+                    <div className="attraction-card-footer">
+                      <div className="tour-price-box">
+                        <span className="tour-price-value">{item.price || '$45'}</span>
+                        <span className="tour-price-unit">/person</span>
+                      </div>
+                      <button type="button" className="btn-book-tour">{item.btnText || 'Book Now'}</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function AboutSection({ onOpenQuote, settings }) {
+      const quote = (settings && settings.aboutQuote) ? settings.aboutQuote : "“We, at Arabian Travel Service, cater to our clients a lifestyle at its best where they can feel the pulse of Salalah, the unseen facet of Oman, through our exclusive guided tours and other value-added services.”";
+      const archImg = (settings && settings.aboutArchImg) ? settings.aboutArchImg : "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80";
+
+      return (
+        <section className="about-us-section" id="about-us">
+          <div className="container about-us-container">
+            <h2 className="about-us-title">About US</h2>
+            <p className="about-us-quote">{quote}</p>
+            <div>
+              <button type="button" className="btn-about-readmore" onClick={() => onOpenQuote('About Arabian Travel Service')}>
+                Read More
+              </button>
+            </div>
+
+            {/* Arched Photo Frame with Floating Bubbles (Image 4) */}
+            <div className="about-visual-stage">
+              <div className="about-arch-outer">
+                <div className="about-arch-inner">
+                  <img src={archImg} alt="Salalah Traveler" className="about-arch-img" loading="lazy" />
+                </div>
+              </div>
+              <div className="about-bubble-1" title="Wadi Darbat Waterfalls">
+                <img src={settings?.bubble1Img || "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=400&q=80"} alt="Wadi Darbat" loading="lazy" />
+              </div>
+              <div className="about-bubble-2" title="Salalah Coastline">
+                <img src={settings?.bubble2Img || "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=300&q=80"} alt="Coastline" loading="lazy" />
+              </div>
+              <div className="about-bubble-3" title="Coastal Camels">
+                <img src={settings?.bubble3Img || "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80"} alt="Camels" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const TOURS_LIST = [
+      { id: 1, title: 'Sunset Desert Safari with Barbecue Dinner at bedouin tent', location: 'Salalah', rating: 5, hours: '10-Hrs', carHours: '10-Hrs', guide: 'Driver-guide', capacity: '3', price: '120$', image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80' },
+      { id: 2, title: 'Private Custom Made Full Day tour By 4WD', location: 'Salalah', rating: 5, hours: '08-Hrs', carHours: '08-Hrs', guide: 'Driver-guide', capacity: '3', price: '450$', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=700&q=80' },
+      { id: 3, title: 'East Salalah Mountain Safari', location: 'Salalah', rating: 5, hours: '08-Hrs', carHours: '08-Hrs', guide: 'Driver-guide', capacity: '3', price: '80$', image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=700&q=80' },
+      { id: 4, title: 'Salalah Coastal Dolphin Watching & Snorkeling', location: 'Salalah', rating: 5, hours: '04-Hrs', carHours: '04-Hrs', guide: 'Driver-guide', capacity: '4', price: '65$', image: 'https://images.unsplash.com/photo-1570481662006-a3a1374699e8?auto=format&fit=crop&w=700&q=80' },
+      { id: 5, title: 'West Salalah Beach & Blowholes Exploration', location: 'Salalah', rating: 5, hours: '06-Hrs', carHours: '06-Hrs', guide: 'Driver-guide', capacity: '3', price: '95$', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=700&q=80' }
+    ];
+
+    function ToursSection({ onBookTour }) {
+      return (
+        <section className="tours-trips-section" id="tours">
+          <div className="container">
+            <div className="section-badge-center">
+              <span className="pill-badge-outline">Tour - Trips</span>
+            </div>
+          </div>
+          <div className="tours-marquee-container">
+            <div className="tours-marquee-track">
+              {TOURS_LIST.map((t) => (
+                <div key={`rt1-${t.id}`} className="tour-trip-card" onClick={() => onBookTour(t.title, t.price)}>
+                  <div className="tour-card-img-wrap">
+                    <img src={t.image} alt={t.title} className="tour-card-img" loading="lazy" />
+                  </div>
+                  <div className="tour-card-body">
+                    <div className="tour-card-header-meta">
+                      <span className="tour-location-tag"><i className="fa-solid fa-location-dot"></i> {t.location}</span>
+                      <span className="tour-rating-stars">{t.rating} <i className="fa-solid fa-star"></i></span>
+                    </div>
+                    <h3 className="tour-card-title">{t.title}</h3>
+                    <div className="tour-card-grid-meta">
+                      <div className="tour-meta-item"><i className="fa-regular fa-clock"></i> {t.hours}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-car-side"></i> {t.carHours}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-user-tie"></i> {t.guide}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-users"></i> {t.capacity}</div>
+                    </div>
+                    <div className="tour-card-footer">
+                      <div className="tour-price-box">
+                        <span className="tour-price-value">{t.price}</span>
+                        <span className="tour-price-unit">/Per person</span>
+                      </div>
+                      <button 
+                        type="button" 
+                        className="btn-book-tour"
+                        onClick={(e) => { e.stopPropagation(); onBookTour(t.title, t.price); }}
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {TOURS_LIST.map((t) => (
+                <div key={`rt2-${t.id}`} className="tour-trip-card" aria-hidden="true" onClick={() => onBookTour(t.title, t.price)}>
+                  <div className="tour-card-img-wrap">
+                    <img src={t.image} alt={t.title} className="tour-card-img" loading="lazy" />
+                  </div>
+                  <div className="tour-card-body">
+                    <div className="tour-card-header-meta">
+                      <span className="tour-location-tag"><i className="fa-solid fa-location-dot"></i> {t.location}</span>
+                      <span className="tour-rating-stars">{t.rating} <i className="fa-solid fa-star"></i></span>
+                    </div>
+                    <h3 className="tour-card-title">{t.title}</h3>
+                    <div className="tour-card-grid-meta">
+                      <div className="tour-meta-item"><i className="fa-regular fa-clock"></i> {t.hours}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-car-side"></i> {t.carHours}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-user-tie"></i> {t.guide}</div>
+                      <div className="tour-meta-item"><i className="fa-solid fa-users"></i> {t.capacity}</div>
+                    </div>
+                    <div className="tour-card-footer">
+                      <div className="tour-price-box">
+                        <span className="tour-price-value">{t.price}</span>
+                        <span className="tour-price-unit">/Per person</span>
+                      </div>
+                      <button 
+                        type="button" 
+                        className="btn-book-tour"
+                        onClick={(e) => { e.stopPropagation(); onBookTour(t.title, t.price); }}
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="section-readmore-footer">
+            <a href="#contact" className="section-footer-readmore-link">READ MORE</a>
+          </div>
+        </section>
+      );
+    }
+
+    const TRANSFERS_LIST = [
+      { id: 1, title: 'Toyota Land Cruiser – 4WD SUV', passengers: 4, luggage: 4, price: '65$', image: 'assets/vehicles/toyota-land-cruiser.svg' },
+      { id: 2, title: 'Toyota Prado – Premium SUV', passengers: 4, luggage: 3, price: '55$', image: 'assets/vehicles/toyota-prado.svg' },
+      { id: 3, title: 'Nissan Altima – Sedan Car', passengers: 3, luggage: 3, price: '45$', image: 'assets/vehicles/nissan-altima.svg' },
+      { id: 4, title: 'Toyota Land Cruiser – 4WD SUV', passengers: 4, luggage: 4, price: '65$', image: 'assets/vehicles/toyota-land-cruiser.svg' },
+      { id: 5, title: 'Mercedes V-Class – VIP Chauffeur Van', passengers: 7, luggage: 7, price: '120$', image: 'assets/vehicles/mercedes-v-class.svg' }
+    ];
+
+    function AirportTransferSection({ onBookTransfer }) {
+      return (
+        <section className="airport-transfer-section" id="transfers">
+          <div className="container">
+            <div className="section-badge-center">
+              <span className="pill-badge-outline">Airport transfer</span>
+            </div>
+          </div>
+          <div className="transfers-marquee-container">
+            <div className="transfers-marquee-track">
+              {TRANSFERS_LIST.map((v) => (
+                <div key={`rv1-${v.id}`} className="transfer-vehicle-card" onClick={() => onBookTransfer(v.title, v.price)}>
+                  <div className="transfer-vehicle-img-wrap">
+                    <img src={v.image} alt={v.title} className="transfer-vehicle-img" loading="lazy" />
+                  </div>
+                  <h3 className="transfer-vehicle-title">{v.title}</h3>
+                  <div className="transfer-vehicle-specs">
+                    <span className="transfer-spec-item"><i className="fa-solid fa-users"></i> : {v.passengers}</span>
+                    <span className="transfer-spec-item"><i className="fa-solid fa-suitcase"></i> : {v.luggage}</span>
+                  </div>
+                  <div className="transfer-price-row">
+                    <span className="transfer-price-val">{v.price}</span>
+                    <span className="transfer-price-sub">/Per person</span>
+                  </div>
+                  <button type="button" className="btn-book-tour" style={{ width: '100%' }}>Book Now</button>
+                </div>
+              ))}
+              {TRANSFERS_LIST.map((v) => (
+                <div key={`rv2-${v.id}`} className="transfer-vehicle-card" aria-hidden="true" onClick={() => onBookTransfer(v.title, v.price)}>
+                  <div className="transfer-vehicle-img-wrap">
+                    <img src={v.image} alt={v.title} className="transfer-vehicle-img" loading="lazy" />
+                  </div>
+                  <h3 className="transfer-vehicle-title">{v.title}</h3>
+                  <div className="transfer-vehicle-specs">
+                    <span className="transfer-spec-item"><i className="fa-solid fa-users"></i> : {v.passengers}</span>
+                    <span className="transfer-spec-item"><i className="fa-solid fa-suitcase"></i> : {v.luggage}</span>
+                  </div>
+                  <div className="transfer-price-row">
+                    <span className="transfer-price-val">{v.price}</span>
+                    <span className="transfer-price-sub">/Per person</span>
+                  </div>
+                  <button type="button" className="btn-book-tour" style={{ width: '100%' }}>Book Now</button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="section-readmore-footer">
+            <a href="#contact" className="section-footer-readmore-link">READ MORE</a>
+          </div>
+        </section>
+      );
+    }
+
+    const GALLERY_DATA = [
+      { id: 1, title: 'Coastal Fjords of Salalah', img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=700&q=80', icon: 'fa-mountain-sun' },
+      { id: 2, title: 'Rub Al Khali Sand Dunes', img: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80', icon: 'fa-compass' },
+      { id: 3, title: 'Wild Dolphin Sanctuary', img: 'https://images.unsplash.com/photo-1570481662006-a3a1374699e8?auto=format&fit=crop&w=700&q=80', icon: 'fa-water' },
+      { id: 4, title: 'Arabian Sunset Dhow Cruise', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80', icon: 'fa-sailboat' }
+    ];
+
+    function GallerySection({ onOpenPhoto, items }) {
+      const list = (items && items.length > 0) ? items : GALLERY_DATA;
+
+      return (
+        <section className="salalah-gallery-section" id="gallery">
+          <div className="container">
+            <div className="gallery-header-wrap">
+              <h2 className="gallery-main-title">Gallery</h2>
+              <p className="gallery-main-subtitle">Have a look at our photo gallery and see what you will be able to see in Salalah</p>
+            </div>
+            <div className="salalah-gallery-grid">
+              {list.map((item, idx) => (
+                <div key={item.id || idx} className="salalah-gallery-card" onClick={() => onOpenPhoto(item.title, 'Gallery Preview')}>
+                  <img src={item.image || item.img} alt={item.title} className="salalah-gallery-img" loading="lazy" />
+                  <div className="gallery-card-hover-overlay">
+                    <span><i className={`fa-solid ${item.icon || 'fa-camera'}`}></i> {item.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const REVIEWS_LIST = [
+      { id: 1, name: 'Bhavesh S', avatar: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=250&q=80', stars: 5, quote: 'East Salalah mountain safari is best tour salalah and one must see Ayn aathum, Wadi Darbat, Taqa, Ja...' },
+      { id: 2, name: 'Sarah & Thomas M.', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80', stars: 5, quote: 'The Sunset Desert Safari with barbecue dinner in the bedouin tent was the absolute highlight of our vacation! Professional guide and stunning dunes.' },
+      { id: 3, name: 'Ahmed Al-Rashid', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80', stars: 5, quote: 'Airport transfer was waiting promptly with the Toyota Land Cruiser. Clean car, cold water provided, courteous driver. Flawless VIP experience.' },
+      { id: 4, name: 'Dr. Ananya Rao', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=250&q=80', stars: 5, quote: 'Private custom-made full day 4WD tour tailored to our pace. Ayn Athum and Wadi Darbat are sheer paradise on earth. 10/10 recommend Arabian Travel Service.' },
+      { id: 5, name: 'Marcus Weber', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80', stars: 5, quote: 'Dolphin watching cruise was unbelievable. We saw pods of 30+ dolphins jumping right beside our boat. Truly unforgettable adventure!' }
+    ];
+
+    function ReviewsSection({ items }) {
+      const list = (items && items.length > 0) ? items : REVIEWS_LIST;
+
+      return (
+        <section className="salalah-reviews-section" id="testimonials">
+          <div className="container">
+            <div className="section-header">
+              <div className="section-tag">
+                <i className="fa-solid fa-star"></i> Traveler Reviews
+              </div>
+              <h2 className="section-title">
+                Loved by Over <span className="script-accent">25,000+</span> Voyagers
+              </h2>
+              <p className="section-subtitle">
+                Authentic guest stories &bull; Auto-scrolling left to right &bull; Hover to pause
+              </p>
+            </div>
+          </div>
+          <div className="reviews-marquee-container">
+            <div className="reviews-marquee-track">
+              {list.map((rev, idx) => (
+                <div key={`rr1-${rev.id || idx}`} className="review-item-card">
+                  <div className="review-avatar-wrap">
+                    <img src={rev.avatar} alt={rev.name} className="review-avatar-img" loading="lazy" />
+                  </div>
+                  <div className="review-content-wrap">
+                    <h4 className="review-author-name">{rev.name}</h4>
+                    <div className="review-stars-row">
+                      {[...Array(rev.stars || 5)].map((_, i) => (
+                        <i key={i} className="fa-solid fa-star"></i>
+                      ))}
+                    </div>
+                    <p className="review-quote-text">&ldquo;{rev.quote}&rdquo;</p>
+                  </div>
+                </div>
+              ))}
+              {list.map((rev, idx) => (
+                <div key={`rr2-${rev.id || idx}`} className="review-item-card" aria-hidden="true">
+                  <div className="review-avatar-wrap">
+                    <img src={rev.avatar} alt={rev.name} className="review-avatar-img" loading="lazy" />
+                  </div>
+                  <div className="review-content-wrap">
+                    <h4 className="review-author-name">{rev.name}</h4>
+                    <div className="review-stars-row">
+                      {[...Array(rev.stars || 5)].map((_, i) => (
+                        <i key={i} className="fa-solid fa-star"></i>
+                      ))}
+                    </div>
+                    <p className="review-quote-text">&ldquo;{rev.quote}&rdquo;</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function BookingModal({ isOpen, title, onClose }) {
+      if (!isOpen) return null;
+      return (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(4,10,22,0.7)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={onClose}>
+          <div style={{ background: '#fff', borderRadius: '20px', maxWidth: '440px', width: '100%', padding: '28px', position: 'relative' }} onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={onClose} style={{ position: 'absolute', top: '14px', right: '14px', border: 'none', background: '#f1f5f9', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer', fontSize: '1.1rem' }}>&times;</button>
+            <h3 style={{ margin: '0 0 10px', color: '#0A1F44' }}>{title}</h3>
+            <p style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '18px' }}>Please submit your contact info and our travel manager will get back to you immediately.</p>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Request submitted successfully!'); onClose(); }} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <input type="text" placeholder="Full Name" required style={{ padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #CBD5E1' }} />
+              <input type="tel" placeholder="Phone Number (+971 58 833 8927)" required style={{ padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #CBD5E1' }} />
+              <input type="email" placeholder="Email Address" required style={{ padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #CBD5E1' }} />
+              <button type="submit" className="btn btn-gold" style={{ padding: '11px', marginTop: '6px' }}>Submit</button>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [modalOpen, setModalOpen] = useState(false);
+      const [modalTitle, setModalTitle] = useState('Inquiry');
+      const [siteData, setSiteData] = useState(() => (typeof AirDreamStore !== 'undefined' ? AirDreamStore.getData() : {}));
+
+      useEffect(() => {
+        if (typeof AirDreamStore !== 'undefined') {
+          return AirDreamStore.subscribe((newData) => {
+            setSiteData({ ...newData });
+          });
+        }
+      }, []);
+
+      const handleOpenQuote = (title) => {
+        setModalTitle(title);
+        setModalOpen(true);
+      };
+
+      const handleBookTrip = (packageTitle, price) => {
+        setModalTitle(`Book: ${packageTitle} (${price})`);
+        setModalOpen(true);
+      };
+
+      const handleBookAttraction = (name, price) => {
+        setModalTitle(`Book Attraction: ${name} (${price})`);
+        setModalOpen(true);
+      };
+
+      return (
+        <div>
+          <Navbar onOpenQuote={handleOpenQuote} logoUrl={siteData.settings?.logoUrl} />
+          <HeroSection onOpenQuote={handleOpenQuote} wallpapers={siteData.wallpapers} />
+          <PartnersSection />
+          <SingleLineCards onBookTrip={handleBookTrip} />
+          <AttractionsSection onBookAttraction={handleBookAttraction} items={siteData.attractions} />
+          <AboutSection onOpenQuote={handleOpenQuote} settings={siteData.settings} />
+          <ToursSection onBookTour={handleBookTrip} items={siteData.tours} />
+          <AirportTransferSection onBookTransfer={handleBookTrip} items={siteData.transfers} />
+          <GallerySection onOpenPhoto={handleBookTrip} items={siteData.gallery} />
+          <ReviewsSection items={siteData.reviews} />
+          <BookingModal isOpen={modalOpen} title={modalTitle} onClose={() => setModalOpen(false)} />
+
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

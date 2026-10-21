@@ -8,6 +8,19 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const os = require('os');
+
+function getNetworkIp() {
+  const nets = os.networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      if (net.family === 'IPv4' && !net.internal) {
+        return net.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
@@ -128,6 +141,53 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // GET /api/site-data
+  if (pathname === '/api/site-data' && req.method === 'GET') {
+    const liveFile = path.join(__dirname, 'data', 'site-data.json');
+    const defaultFile = path.join(__dirname, 'data', 'default-data.json');
+    const targetFile = fs.existsSync(liveFile) ? liveFile : defaultFile;
+
+    fs.readFile(targetFile, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to read data file' }));
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(content);
+    });
+    return;
+  }
+
+  // POST /api/site-data
+  if (pathname === '/api/site-data' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        const dataDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+        const liveFile = path.join(dataDir, 'site-data.json');
+        fs.writeFile(liveFile, JSON.stringify(parsed, null, 2), 'utf8', (err) => {
+          if (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Failed to write site data' }));
+            return;
+          }
+          console.log('[Air Dream] Site data updated via Admin panel');
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Site data saved successfully' }));
+        });
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, message: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
   // --------------------------------------------------------------------------
   // Static File Serving
   // --------------------------------------------------------------------------
@@ -168,9 +228,11 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
+  const localIp = getNetworkIp();
   console.log(`\n======================================================`);
   console.log(`  ✈️  Air Dream Travel & Tourism - Server Running!`);
-  console.log(`  📍 Local URL:  http://localhost:${PORT}`);
-  console.log(`  🚀 Ready for live browser browsing & API requests`);
+  console.log(`  💻 PC Browser:  http://localhost:${PORT}`);
+  console.log(`  📱 Phone Demo:   http://${localIp}:${PORT}`);
+  console.log(`  (Ensure your phone is connected to the same Wi-Fi)`);
   console.log(`======================================================\n`);
 });

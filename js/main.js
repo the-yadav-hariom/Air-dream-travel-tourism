@@ -38,7 +38,7 @@ function initMobileNav() {
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const mobileDrawer = document.getElementById('mobileNavDrawer');
   const mobileBackdrop = document.getElementById('mobileNavBackdrop');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-item a');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-item a, .borderlink-nav-item, .borderlink-mobile-menu a, .borderlink-menu-actions button');
 
   if (!hamburgerBtn || !mobileDrawer || !mobileBackdrop) return;
 
@@ -350,69 +350,109 @@ window.bookSearchResult = function(name, price) {
    (Tap / click opens card like a book, revealing inside details and Book Offer Trip button)
    -------------------------------------------------------------------------- */
 function initWhyChooseCards() {
-  // Handlers attached globally via toggleTravelBook
+  const track = document.getElementById('singleLineCardsTrack');
+  const prevBtn = document.getElementById('singleLinePrevBtn');
+  const nextBtn = document.getElementById('singleLineNextBtn');
+
+  if (!track) return;
+
+  // Arrow navigation buttons
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -320, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: 320, behavior: 'smooth' });
+    });
+  }
+
+  // Smooth mouse drag-to-scroll for desktop
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  track.addEventListener('mousedown', (e) => {
+    // If clicking on an open card or button, don't initiate drag
+    if (e.target.closest('.card-second-opened') || e.target.closest('button')) return;
+    isDown = true;
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+  });
+
+  track.addEventListener('mouseleave', () => {
+    isDown = false;
+  });
+
+  track.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  track.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.6;
+    track.scrollLeft = scrollLeft - walk;
+  });
 }
 
-let travelBookAutoCloseTimer = null;
+let singleLineCardAutoCloseTimer = null;
 
-window.toggleTravelBook = function(cardElement, event) {
+window.toggleSingleLineCard = function(cardElement, event) {
   if (!cardElement) return;
 
   const evt = event || window.event;
-  // If the user clicked inside the open inside page (reading or clicking trip button), do not close prematurely
-  if (evt && evt.target && evt.target.closest('.book-inside-page') && !evt.target.closest('.book-close-x')) {
+  // If the user clicked inside the open white card (reading or clicking CTA), don't close
+  if (evt && evt.target && evt.target.closest('.card-second-opened') && !evt.target.closest('.card-close-x')) {
     return;
   }
 
-  const isOpen = cardElement.classList.contains('is-book-open');
+  const isOpen = cardElement.classList.contains('is-card-open');
 
-  // Clear any active auto-close timer
-  if (travelBookAutoCloseTimer) {
-    clearTimeout(travelBookAutoCloseTimer);
-    travelBookAutoCloseTimer = null;
+  if (singleLineCardAutoCloseTimer) {
+    clearTimeout(singleLineCardAutoCloseTimer);
+    singleLineCardAutoCloseTimer = null;
   }
 
-  // Close all other opened books and reset their countdown lines
-  document.querySelectorAll('.book-card-item').forEach(c => {
-    c.classList.remove('is-book-open');
-    const timerLine = c.querySelector('.book-timer-line');
-    if (timerLine) timerLine.style.animation = 'none';
+  // Close all other open cards
+  document.querySelectorAll('.single-line-card-item').forEach(c => {
+    c.classList.remove('is-card-open');
   });
 
   if (!isOpen) {
-    // Open the card in 3D book style
-    cardElement.classList.add('is-book-open');
+    cardElement.classList.add('is-card-open');
 
-    // Trigger fresh 5-second countdown line animation
-    const timerLine = cardElement.querySelector('.book-timer-line');
-    if (timerLine) {
-      timerLine.style.animation = 'none';
-      void timerLine.offsetWidth; // force DOM reflow
-      timerLine.style.animation = 'bookAutoCloseCountDown 5s linear forwards';
-    }
+    // Smoothly scroll the opened card into center view so both cards are fully visible
+    setTimeout(() => {
+      cardElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 150);
 
-    // Auto-close after precisely 5 seconds (5000ms)
-    travelBookAutoCloseTimer = setTimeout(() => {
-      cardElement.classList.remove('is-book-open');
-      if (timerLine) timerLine.style.animation = 'none';
-      travelBookAutoCloseTimer = null;
-    }, 5000);
+    // Optional 12-second auto-close timer
+    singleLineCardAutoCloseTimer = setTimeout(() => {
+      cardElement.classList.remove('is-card-open');
+      singleLineCardAutoCloseTimer = null;
+    }, 12000);
   }
 };
 
-window.closeTravelBook = function(closeBtn) {
+window.closeSingleLineCard = function(closeBtn) {
   if (!closeBtn) return;
-  if (travelBookAutoCloseTimer) {
-    clearTimeout(travelBookAutoCloseTimer);
-    travelBookAutoCloseTimer = null;
+  if (singleLineCardAutoCloseTimer) {
+    clearTimeout(singleLineCardAutoCloseTimer);
+    singleLineCardAutoCloseTimer = null;
   }
-  const card = closeBtn.closest('.book-card-item');
+  const card = closeBtn.closest('.single-line-card-item');
   if (card) {
-    card.classList.remove('is-book-open');
-    const timerLine = card.querySelector('.book-timer-line');
-    if (timerLine) timerLine.style.animation = 'none';
+    card.classList.remove('is-card-open');
   }
 };
+
+// Aliases for backward compatibility
+window.toggleTravelBook = window.toggleSingleLineCard;
+window.closeTravelBook = window.closeSingleLineCard;
 
 window.handleBookOfferTrip = function(offerTitle, price) {
   showToast(`Selected Offer: "${offerTitle}" (${price}). Opening reservation...`, 'info');

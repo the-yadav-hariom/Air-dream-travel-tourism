@@ -79,7 +79,28 @@ Simply open `index.html` in any web browser (Chrome, Safari, Edge, Firefox).
 ### Option 2: Run with Node.js & Express (Optional)
 If you prefer running a local server with API endpoints:
 ```bash
-npm install
 npm start
 ```
 Then visit `http://localhost:3000` in your browser.
+
+---
+
+## 🔐 Admin Control Center & Content Management
+
+The website includes an administrative dashboard ([`admin.html`](admin.html)) allowing real-time CRUD management for all website content without editing code.
+
+### Admin Login Credentials:
+- **Admin Base Number:** `3165514265`
+- **Admin Password:** `airdreamtravel123`
+- **Access Point:** Open [`admin.html`](admin.html) or double-click [`open-admin.bat`](open-admin.bat), or click the **Admin** link in the website navbar, mobile drawer, or footer.
+
+### Editable Content Modules:
+1. **Home Wallpapers & Slides:** Edit title, highlight, description, and wallpaper background image URL or local upload.
+2. **Top Dubai Attractions:** Add/edit/delete landmarks, activities count, price, and photo URL or upload.
+3. **Photo Gallery:** Add/edit/delete pictures with custom captions and icons.
+4. **Tour - Trips (Salalah):** Manage duration, driver-guide, seats, ratings, and pricing.
+5. **Airport Transfers:** Manage vehicle fleet, luggage capacity, passengers, and fares.
+6. **Packages:** Manage Umrah, Holiday, and Flight packages with inclusions.
+7. **Traveler Reviews:** Manage guest feedback, quotes, avatars, and star ratings.
+8. **Site Settings & Logo:** Update brand logo URL, phone, WhatsApp, email, office address, About Us quote, and collage images.
+

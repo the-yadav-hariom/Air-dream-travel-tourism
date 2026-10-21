@@ -1,23 +1,31 @@
 {
-  "name": "air-dream-travel",
+  "name": "borderlink-travel-react",
   "version": "1.0.0",
-  "description": "Air Dream Travel & Tourism - Fly Your Dreams. Modern responsive web application for luxury flights, Hajj & Umrah, tour packages, and visa services.",
+  "private": true,
+  "description": "Borderlink Travel & Tours - React.js Web Application",
+  "type": "module",
   "scripts": {
-    "build": "echo Static build complete",
-    "start": "node server.js",
-    "dev": "node server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "serve": "node server.js"
   },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  },
   "keywords": [
-    "travel-agency",
+    "borderlink",
+    "travel",
     "flights",
     "umrah",
-    "hajj",
     "tours",
-    "visa",
-    "booking",
-    "air-dream"
+    "react"
   ],
-  "author": "Air Dream Travel & Tourism",
+  "author": "Borderlink Travel & Tours (Pvt.) Ltd",
   "license": "MIT"
 }

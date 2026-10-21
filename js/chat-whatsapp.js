@@ -20,7 +20,7 @@ function initChatAndWhatsApp() {
   if (whatsappFloatingBtn) {
     whatsappFloatingBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const phone = '971501234567'; // Customer service hotline
+      const phone = '971588338927'; // Customer service hotline (+971 58 833 8927)
       const text = encodeURIComponent('Hello Air Dream Travel & Tourism! I would like to get a quote and inquire about your flight & tour packages.');
       window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
     });
@@ -112,7 +112,7 @@ function initChatAndWhatsApp() {
     }
 
     if (lower.includes('agent') || lower.includes('whatsapp') || lower.includes('human') || lower.includes('call')) {
-      return `📞 <strong>Direct Human Assistance:</strong> You can connect with our senior travel consultant right away on WhatsApp at <a href="https://wa.me/971501234567" target="_blank" style="color:#25D366; font-weight:700;">+971 50 123 4567</a> or call our 24/7 hotline.`;
+      return `📞 <strong>Direct Human Assistance:</strong> You can connect with our senior travel consultant right away on WhatsApp at <a href="https://wa.me/971588338927" target="_blank" style="color:#25D366; font-weight:700;">+971 58 833 8927</a> or call our 24/7 hotline.`;
     }
 
     return `Thank you for reaching out to <strong>Air Dream Travel & Tourism</strong>! How may we assist your journey today? You can choose a quick option or connect directly via WhatsApp anytime.`;

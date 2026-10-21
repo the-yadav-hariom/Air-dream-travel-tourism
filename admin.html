@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Dream Travel & Tourism - Admin Control Center</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       ADMIN LOGIN SCREEN (AUTH PROTECTED BY BASE NUMBER & PASSWORD)
+       Base Number: 3165514265 | Password: airdreamtravel123
+       ====================================================================== -->
+  <div class="admin-login-screen" id="adminLoginScreen">
+    <div class="admin-login-card">
+      
+      <!-- Exact Navbar Logo on Login Screen -->
+      <div class="admin-login-brand">
+        <img src="assets/air-dream-badge.svg" alt="Air Dream Logo" class="admin-navbar-logo" id="loginBrandLogo">
+        <div class="air-dream-brand-text">
+          <span class="air-dream-brand-name">Air Dream</span>
+          <span class="air-dream-brand-sub">TRAVEL &amp; TOURISM</span>
+        </div>
+      </div>
+
+      <div class="admin-login-header">
+        <h2>Admin Sign In</h2>
+        <p>Authorized access only. Enter your registered Base Number and Password to access the control center.</p>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="login-error-banner" id="loginErrorBanner">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="loginErrorMsg">Invalid Base Number or Password.</span>
+      </div>
+
+      <form class="admin-login-form" id="adminLoginForm">
+        
+        <div class="form-field">
+          <label for="loginBaseNumber">Admin Base Number</label>
+          <div class="login-input-wrap">
+            <i class="fa-solid fa-id-badge login-input-icon"></i>
+            <input type="text" class="login-input-field" id="loginBaseNumber" name="baseNumber" placeholder="3165514265" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="loginPassword">Password</label>
+          <div class="login-input-wrap">
+            <i class="fa-solid fa-lock login-input-icon"></i>
+            <input type="password" class="login-input-field" id="loginPassword" name="password" placeholder="airdreamtravel123" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" id="togglePasswordBtn" aria-label="Toggle Password Visibility">
+              <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; color:#475569; cursor:pointer;">
+            <input type="checkbox" id="rememberMeCheckbox" checked> Remember session
+          </label>
+          <a href="index.html" target="_blank" style="font-size:0.8rem; color:#0284c7; text-decoration:none; font-weight:600;">
+            Live Site ↗
+          </a>
+        </div>
+
+        <button type="submit" class="login-btn-submit">
+          <i class="fa-solid fa-right-to-bracket"></i> Login to Admin Hub
+        </button>
+
+        <!-- Quick 1-Click Test Credentials Button -->
+        <div class="login-quick-helper" id="btnFillCredentials" title="Click to autofill authorized login details">
+          <i class="fa-solid fa-key"></i> Quick Fill: <strong>3165514265</strong> / <strong>airdreamtravel123</strong>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       SIDEBAR WITH EXACT NAVBAR BRAND LOGO
+       ====================================================================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    
+    <div class="sidebar-header">
+      <a href="index.html" target="_blank" class="sidebar-brand-logo-wrap" title="View Air Dream Live Site">
+        <img src="assets/air-dream-badge.svg" alt="Air Dream Logo" class="admin-navbar-logo" id="adminSidebarLogo">
+        <div class="air-dream-brand-text">
+          <span class="air-dream-brand-name">Air Dream</span>
+          <span class="air-dream-brand-sub">TRAVEL &amp; TOURISM</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <button type="button" class="sidebar-tab-btn active" data-tab="dashboard">
+        <span class="tab-btn-content"><i class="fa-solid fa-gauge-high"></i> Dashboard</span>
+      </button>
+
+      <div class="nav-section-label">Content Management</div>
+      <button type="button" class="sidebar-tab-btn" data-tab="wallpapers">
+        <span class="tab-btn-content"><i class="fa-solid fa-images"></i> Home Wallpapers</span>
+        <span class="tab-badge" id="badgeWallpapers">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="attractions">
+        <span class="tab-btn-content"><i class="fa-solid fa-landmark"></i> Dubai Attractions</span>
+        <span class="tab-badge" id="badgeAttractions">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="gallery">
+        <span class="tab-btn-content"><i class="fa-solid fa-camera"></i> Photo Gallery</span>
+        <span class="tab-badge" id="badgeGallery">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="tours">
+        <span class="tab-btn-content"><i class="fa-solid fa-mountain-sun"></i> Tour - Trips</span>
+        <span class="tab-badge" id="badgeTours">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="transfers">
+        <span class="tab-btn-content"><i class="fa-solid fa-car-side"></i> Airport Transfers</span>
+        <span class="tab-badge" id="badgeTransfers">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="packages">
+        <span class="tab-btn-content"><i class="fa-solid fa-box-archive"></i> Packages</span>
+        <span class="tab-badge" id="badgePackages">0</span>
+      </button>
+
+      <button type="button" class="sidebar-tab-btn" data-tab="reviews">
+        <span class="tab-btn-content"><i class="fa-solid fa-comments"></i> Traveler Reviews</span>
+        <span class="tab-badge" id="badgeReviews">0</span>
+      </button>
+
+      <div class="nav-section-label">Configuration</div>
+      <button type="button" class="sidebar-tab-btn" data-tab="settings">
+        <span class="tab-btn-content"><i class="fa-solid fa-sliders"></i> Site Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="live-indicator">
+        <div class="pulse-dot"></div>
+        <span>Live Sync Active</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ======================================================================
+       MAIN CONTENT
+       ====================================================================== -->
+  <main class="admin-main">
+    
+    <!-- TOPBAR -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-title">
+          <h1 id="topbarTitle">Dashboard Overview</h1>
+          <p>Real-time website management for Air Dream Travel & Tourism</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <!-- Logged in Admin Indicator -->
+        <span class="btn-admin" style="background:#e0f2fe; color:#0369a1; border:none; cursor:default;" title="Authorized Admin Base Number">
+          <i class="fa-solid fa-circle-user"></i>
+          <span class="btn-text-hide">Admin: 3165514265</span>
+        </span>
+
+        <a href="index.html" target="_blank" class="btn-admin btn-admin-primary" title="Open Website">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span class="btn-text-hide">Live Website</span>
+        </a>
+
+        <a href="phone-demo.html" target="_blank" class="btn-admin btn-admin-outline" title="Open Mobile Demo">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span class="btn-text-hide">Phone Demo</span>
+        </a>
+
+        <button type="button" class="btn-admin btn-admin-outline" id="btnExportData" title="Download backup JSON">
+          <i class="fa-solid fa-download"></i>
+          <span class="btn-text-hide">Export JSON</span>
+        </button>
+
+        <label class="btn-admin btn-admin-outline" title="Import backup JSON" style="cursor: pointer; margin-bottom: 0;">
+          <i class="fa-solid fa-upload"></i>
+          <span class="btn-text-hide">Import JSON</span>
+          <input type="file" id="importFileInput" accept=".json" style="display: none;">
+        </label>
+
+        <button type="button" class="btn-admin btn-admin-danger-outline" id="btnResetData" title="Reset to initial factory defaults">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+
+        <!-- Logout Button -->
+        <button type="button" class="btn-admin btn-admin-danger-outline" onclick="handleAdminLogout()" title="Log out from Admin Hub">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span class="btn-text-hide">Logout</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEWS CONTENT WRAPPER -->
+    <div class="admin-view-content">
+
+      <!-- ==================================================================
+           TAB 1: DASHBOARD OVERVIEW
+           ================================================================== -->
+      <section class="tab-pane active" id="pane-dashboard">
+        
+        <div class="dashboard-banner">
+          <div class="banner-text">
+            <h2>Welcome to Air Dream Admin Portal</h2>
+            <p>Every single section of your website is 100% editable in real time. Any changes or new items you add are immediately visible across your live site and mobile view.</p>
+          </div>
+          <div class="banner-actions">
+            <button type="button" class="btn-admin btn-admin-success" onclick="openAddModal('attraction')">
+              <i class="fa-solid fa-plus"></i> Add Dubai Attraction
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" style="background:#fff; color:#0f172a;" onclick="openAddModal('gallery')">
+              <i class="fa-solid fa-camera"></i> Add Photo
+            </button>
+          </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div class="stats-grid">
+          
+          <div class="stat-card" onclick="switchTab('wallpapers')">
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-images"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statWallpapers">0</h3>
+              <p>Home Wallpapers</p>
+            </div>
+          </div>
+
+          <div class="stat-card" onclick="switchTab('attractions')">
+            <div class="stat-icon teal">
+              <i class="fa-solid fa-landmark"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statAttractions">0</h3>
+              <p>Dubai Attractions</p>
+            </div>
+          </div>
+
+          <div class="stat-card" onclick="switchTab('gallery')">
+            <div class="stat-icon purple">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statGallery">0</h3>
+              <p>Gallery Photos</p>
+            </div>
+          </div>
+
+          <div class="stat-card" onclick="switchTab('tours')">
+            <div class="stat-icon gold">
+              <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statTours">0</h3>
+              <p>Tour - Trips</p>
+            </div>
+          </div>
+
+          <div class="stat-card" onclick="switchTab('transfers')">
+            <div class="stat-icon green">
+              <i class="fa-solid fa-car-side"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statTransfers">0</h3>
+              <p>Airport Transfers</p>
+            </div>
+          </div>
+
+          <div class="stat-card" onclick="switchTab('packages')">
+            <div class="stat-icon pink">
+              <i class="fa-solid fa-box-archive"></i>
+            </div>
+            <div class="stat-details">
+              <h3 id="statPackages">0</h3>
+              <p>Umrah &amp; Packages</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTIONS BAR -->
+        <div class="quick-actions-bar">
+          <h3><i class="fa-solid fa-bolt text-gold"></i> Fast Add Shortcuts</h3>
+          <div class="quick-actions-grid">
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('wallpaper')">
+              <i class="fa-solid fa-plus text-primary"></i> Add Hero Wallpaper
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('attraction')">
+              <i class="fa-solid fa-plus text-teal"></i> Add Dubai Attraction
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('gallery')">
+              <i class="fa-solid fa-plus text-purple"></i> Add Gallery Picture
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('tour')">
+              <i class="fa-solid fa-plus text-gold"></i> Add Tour Package
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('transfer')">
+              <i class="fa-solid fa-plus text-green"></i> Add Airport Transfer
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('package')">
+              <i class="fa-solid fa-plus text-pink"></i> Add Umrah / Holiday
+            </button>
+            <button type="button" class="btn-admin btn-admin-outline" onclick="openAddModal('review')">
+              <i class="fa-solid fa-plus text-warning"></i> Add Review
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================================================================
+           TAB 2: HOME WALLPAPERS & SLIDES
+           ================================================================== -->
+      <section class="tab-pane" id="pane-wallpapers">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-images text-primary"></i> Home Wallpapers &amp; Hero Slides</h2>
+            <p>Customize the full-screen background wallpapers, titles, badges, and action buttons</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('wallpaper')">
+              <i class="fa-solid fa-plus"></i> Add New Slide
+            </button>
+          </div>
+        </div>
+
+        <div class="wallpapers-list" id="wallpapersListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 3: TOP DUBAI ATTRACTIONS
+           ================================================================== -->
+      <section class="tab-pane" id="pane-attractions">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-landmark text-teal"></i> Top Dubai Attractions</h2>
+            <p>Edit or add Dubai landmarks, activities count, entry ticket prices, and photos</p>
+          </div>
+          <div class="view-header-actions">
+            <div class="admin-search-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" class="admin-search-input" id="searchAttractions" placeholder="Search attractions...">
+            </div>
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('attraction')">
+              <i class="fa-solid fa-plus"></i> Add Attraction
+            </button>
+          </div>
+        </div>
+
+        <div class="items-grid" id="attractionsListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 4: PHOTO GALLERY
+           ================================================================== -->
+      <section class="tab-pane" id="pane-gallery">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-camera text-purple"></i> Photo Gallery</h2>
+            <p>Upload photos from your computer or paste image links to show in the Salalah photo gallery</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('gallery')">
+              <i class="fa-solid fa-plus"></i> Add Picture
+            </button>
+          </div>
+        </div>
+
+        <div class="items-grid" id="galleryListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 5: TOUR - TRIPS
+           ================================================================== -->
+      <section class="tab-pane" id="pane-tours">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-mountain-sun text-gold"></i> Tour - Trips (Salalah)</h2>
+            <p>Manage tour itineraries, duration, 4WD vehicles, driver-guide, prices, and bookings</p>
+          </div>
+          <div class="view-header-actions">
+            <div class="admin-search-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" class="admin-search-input" id="searchTours" placeholder="Search tours...">
+            </div>
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('tour')">
+              <i class="fa-solid fa-plus"></i> Add Tour Package
+            </button>
+          </div>
+        </div>
+
+        <div class="items-grid" id="toursListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 6: AIRPORT TRANSFERS
+           ================================================================== -->
+      <section class="tab-pane" id="pane-transfers">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-car-side text-green"></i> Airport Transfers</h2>
+            <p>Manage fleet vehicles (Land Cruiser, Prado, Altima, V-Class), passenger &amp; luggage capacity, fares</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('transfer')">
+              <i class="fa-solid fa-plus"></i> Add Vehicle Transfer
+            </button>
+          </div>
+        </div>
+
+        <div class="items-grid" id="transfersListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 7: PACKAGES (UMRAH & HOLIDAYS)
+           ================================================================== -->
+      <section class="tab-pane" id="pane-packages">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-box-archive text-pink"></i> Featured &amp; Umrah Packages</h2>
+            <p>Manage 5-Star Executive Umrah, Swiss Alps, Bali villas, Tokyo tours with inclusions &amp; prices</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('package')">
+              <i class="fa-solid fa-plus"></i> Add Package
+            </button>
+          </div>
+        </div>
+
+        <div class="items-grid" id="packagesListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 8: TRAVELER REVIEWS
+           ================================================================== -->
+      <section class="tab-pane" id="pane-reviews">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-comments text-warning"></i> Traveler Reviews &amp; Testimonials</h2>
+            <p>Add customer feedback, ratings, and quotes (e.g., Bhavesh S, Sarah M.)</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-admin btn-admin-primary" onclick="openAddModal('review')">
+              <i class="fa-solid fa-plus"></i> Add Review
+            </button>
+          </div>
+        </div>
+
+        <div class="reviews-grid" id="reviewsListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 9: SITE SETTINGS
+           ================================================================== -->
+      <section class="tab-pane" id="pane-settings">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2><i class="fa-solid fa-sliders text-primary"></i> Site Settings &amp; Contact Info</h2>
+            <p>Edit brand logo, phone, WhatsApp, email, office address, and About Us photos</p>
+          </div>
+          <div class="view-header-actions">
+            <button type="button" class="btn-action-save" id="btnSaveSettings" onclick="document.getElementById('siteSettingsForm').requestSubmit()" style="font-size:0.86rem; padding:8px 18px;">
+              <i class="fa-solid fa-check"></i> Save Changes
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-container">
+          <form id="siteSettingsForm">
+            
+            <h3 class="settings-section-title"><i class="fa-solid fa-image"></i> Brand Logo (Used in Navbar &amp; Header)</h3>
+            <div class="form-field">
+              <label>Navbar Brand Logo Image URL or Upload</label>
+              <div class="image-input-group">
+                <div class="image-preview-box" id="previewLogoImg" style="height: 100px;">
+                  <span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Logo Preview</span>
+                </div>
+                <div class="image-input-controls">
+                  <input type="text" class="form-control" id="setLogoUrl" name="logoUrl" placeholder="assets/air-dream-badge.svg" style="flex: 1;" oninput="handleUrlPreview(this, 'previewLogoImg')">
+                  <label class="file-upload-btn-label">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    <input type="file" accept="image/*" onchange="handleFileUpload(this, 'setLogoUrl', 'previewLogoImg')">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="settings-section-title"><i class="fa-solid fa-building"></i> Company Identity</h3>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="setBrandName">Brand Name</label>
+                <input type="text" class="form-control" id="setBrandName" name="brandName">
+              </div>
+              <div class="form-field">
+                <label for="setBrandTagline">Brand Tagline</label>
+                <input type="text" class="form-control" id="setBrandTagline" name="brandTagline">
+              </div>
+            </div>
+
+            <h3 class="settings-section-title"><i class="fa-solid fa-phone"></i> Contact Details</h3>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="setPhone">Phone Number (Display)</label>
+                <input type="text" class="form-control" id="setPhone" name="phone">
+              </div>
+              <div class="form-field">
+                <label for="setWhatsapp">WhatsApp Number (e.g. 971588338927)</label>
+                <input type="text" class="form-control" id="setWhatsapp" name="whatsapp">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="setEmail">Email Address</label>
+                <input type="email" class="form-control" id="setEmail" name="email">
+              </div>
+              <div class="form-field">
+                <label for="setAddress">Office Address</label>
+                <input type="text" class="form-control" id="setAddress" name="address">
+              </div>
+            </div>
+
+            <h3 class="settings-section-title"><i class="fa-solid fa-quote-left"></i> About Us Section</h3>
+            <div class="form-field">
+              <label for="setAboutQuote">About Us Featured Quote</label>
+              <textarea class="form-control" id="setAboutQuote" name="aboutQuote" rows="4"></textarea>
+            </div>
+
+            <div class="form-field">
+              <label>Main Arch Photo URL or Upload</label>
+              <div class="image-input-group">
+                <div class="image-preview-box" id="previewArchImg">
+                  <span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Arch Photo</span>
+                </div>
+                <div class="image-input-controls">
+                  <input type="text" class="form-control" id="setAboutArchImg" name="aboutArchImg" placeholder="https://..." style="flex: 1;" oninput="handleUrlPreview(this, 'previewArchImg')">
+                  <label class="file-upload-btn-label">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    <input type="file" accept="image/*" onchange="handleFileUpload(this, 'setAboutArchImg', 'previewArchImg')">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Bubbles Photos -->
+            <h3 class="settings-section-title"><i class="fa-solid fa-images"></i> About Us Floating Bubbles Photos</h3>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label>Bubble 1: Wadi Darbat Waterfalls</label>
+                <div class="image-input-controls">
+                  <input type="text" class="form-control" id="setBubble1Img" name="bubble1Img" placeholder="https://..." style="flex: 1;">
+                  <label class="file-upload-btn-label">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    <input type="file" accept="image/*" onchange="handleFileUpload(this, 'setBubble1Img')">
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Bubble 2: Salalah Coastline</label>
+                <div class="image-input-controls">
+                  <input type="text" class="form-control" id="setBubble2Img" name="bubble2Img" placeholder="https://..." style="flex: 1;">
+                  <label class="file-upload-btn-label">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    <input type="file" accept="image/*" onchange="handleFileUpload(this, 'setBubble2Img')">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label>Bubble 3: Desert &amp; Camels</label>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="setBubble3Img" name="bubble3Img" placeholder="https://..." style="flex: 1;">
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'setBubble3Img')">
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-actions-footer" style="display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--ad-gray-200);">
+              <button type="button" class="btn-action-cancel" onclick="populateSettings(AirDreamStore.getData().settings || {}); showToast('Settings form discarded and reset to saved values.', 'info');">
+                Cancel
+              </button>
+              <button type="submit" class="btn-action-save">
+                <i class="fa-solid fa-check"></i> Save Changes
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       UNIVERSAL MODAL DIALOG
+       ====================================================================== -->
+  <div class="admin-modal-backdrop" id="universalModalBackdrop">
+    <div class="admin-modal-card">
+      <div class="modal-header">
+        <h3 id="modalHeading">Edit Item</h3>
+        <button type="button" class="modal-close-x" onclick="closeModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="universalModalForm">
+        <div class="modal-body" id="modalDynamicBody">
+          <!-- Dynamic form fields injected via JS based on collection -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-action-cancel" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-action-save" id="modalSubmitBtn">
+            <i class="fa-solid fa-check"></i> Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="admin-toast-container" id="toastContainer"></div>
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+  <script src="./js/store.js"></script>
+  <script>
+    /**
+     * ADMIN AUTHENTICATION CONTROLLER
+     * Base Number: 3165514265 | Password: airdreamtravel123
+     */
+    const AUTH_KEY = 'air_dream_admin_auth_v2';
+    const AUTH_USER_KEY = 'air_dream_admin_user_v2';
+    const VALID_BASE_NUMBER = '3165514265';
+    const VALID_PASSWORD = 'airdreamtravel123';
+
+    function checkAuthStatus() {
+      const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true' || localStorage.getItem(AUTH_KEY) === 'true';
+      const loginScreen = document.getElementById('adminLoginScreen');
+      if (isAuth) {
+        loginScreen.classList.add('hidden');
+        renderAdminDashboard();
+      } else {
+        loginScreen.classList.remove('hidden');
+      }
+    }
+
+    // Login Form Submit Handler
+    document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const baseNum = document.getElementById('loginBaseNumber').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+      const remember = document.getElementById('rememberMeCheckbox').checked;
+      const errorBanner = document.getElementById('loginErrorBanner');
+      const errorMsg = document.getElementById('loginErrorMsg');
+
+      if (baseNum === VALID_BASE_NUMBER && pass === VALID_PASSWORD) {
+        errorBanner.style.display = 'none';
+        sessionStorage.setItem(AUTH_KEY, 'true');
+        sessionStorage.setItem(AUTH_USER_KEY, baseNum);
+        if (remember) {
+          localStorage.setItem(AUTH_KEY, 'true');
+          localStorage.setItem(AUTH_USER_KEY, baseNum);
+        }
+        document.getElementById('adminLoginScreen').classList.add('hidden');
+        showToast('Signed in successfully! Welcome to Admin Hub.', 'success');
+        renderAdminDashboard();
+      } else {
+        errorBanner.style.display = 'block';
+        if (baseNum !== VALID_BASE_NUMBER && pass !== VALID_PASSWORD) {
+          errorMsg.textContent = 'Invalid Base Number and Password. Use Base: 3165514265 / Pass: airdreamtravel123';
+        } else if (baseNum !== VALID_BASE_NUMBER) {
+          errorMsg.textContent = 'Invalid Base Number. Authorized Base Number is 3165514265.';
+        } else {
+          errorMsg.textContent = 'Invalid Password. Authorized Password is airdreamtravel123.';
+        }
+      }
+    });
+
+    // Toggle Password Visibility
+    document.getElementById('togglePasswordBtn').addEventListener('click', () => {
+      const passInput = document.getElementById('loginPassword');
+      const passIcon = document.getElementById('togglePasswordIcon');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        passIcon.className = 'fa-solid fa-eye-slash';
+      } else {
+        passInput.type = 'password';
+        passIcon.className = 'fa-solid fa-eye';
+      }
+    });
+
+    // 1-Click Quick Fill Credentials
+    document.getElementById('btnFillCredentials').addEventListener('click', () => {
+      document.getElementById('loginBaseNumber').value = VALID_BASE_NUMBER;
+      document.getElementById('loginPassword').value = VALID_PASSWORD;
+      showToast('Credentials filled! Click "Login to Admin Hub".', 'success');
+    });
+
+    // Admin Logout
+    window.handleAdminLogout = function() {
+      if (confirm('Are you sure you want to log out from the Admin Control Center?')) {
+        sessionStorage.removeItem(AUTH_KEY);
+        sessionStorage.removeItem(AUTH_USER_KEY);
+        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(AUTH_USER_KEY);
+        document.getElementById('adminLoginScreen').classList.remove('hidden');
+        document.getElementById('adminLoginForm').reset();
+        document.getElementById('loginErrorBanner').style.display = 'none';
+        showToast('Logged out securely.', 'success');
+      }
+    };
+
+    /**
+     * ADMIN CONTENT MANAGEMENT APPLICATION
+     */
+    let currentCollection = null;
+    let editingItemId = null;
+
+    // Toast Notification helper
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `admin-toast ${type}`;
+      toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-green' : 'fa-triangle-exclamation text-danger'}"></i>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.toggle('active', pane.id === `pane-${tabId}`);
+      });
+
+      // Update Topbar Title
+      const titleMap = {
+        dashboard: 'Dashboard Overview',
+        wallpapers: 'Home Wallpapers & Slides',
+        attractions: 'Top Dubai Attractions',
+        gallery: 'Photo Gallery',
+        tours: 'Tour - Trips (Salalah)',
+        transfers: 'Airport Transfers',
+        packages: 'Featured & Umrah Packages',
+        reviews: 'Traveler Reviews',
+        settings: 'Site Settings'
+      };
+      document.getElementById('topbarTitle').textContent = titleMap[tabId] || 'Admin Hub';
+
+      // Close mobile menu if open
+      document.getElementById('adminSidebar').classList.remove('open');
+    }
+
+    // Attach click events to sidebar buttons
+    document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.getAttribute('data-tab'));
+      });
+    });
+
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('adminSidebar').classList.toggle('open');
+    });
+
+    // File Upload Handler (FileReader -> base64 dataURL)
+    window.handleFileUpload = function(inputEl, targetInputId, previewBoxId) {
+      const file = inputEl.files && inputEl.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const targetInput = document.getElementById(targetInputId);
+        if (targetInput) {
+          targetInput.value = dataUrl;
+        }
+        if (previewBoxId) {
+          const previewBox = document.getElementById(previewBoxId);
+          if (previewBox) {
+            previewBox.innerHTML = `<img src="${dataUrl}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">`;
+          }
+        }
+        showToast('Image uploaded and set successfully!', 'success');
+      };
+      reader.readAsDataURL(file);
+    };
+
+    // Live URL preview handler
+    window.handleUrlPreview = function(urlInputEl, previewBoxId) {
+      const val = urlInputEl.value.trim();
+      const previewBox = document.getElementById(previewBoxId);
+      if (!previewBox) return;
+
+      if (val) {
+        previewBox.innerHTML = `<img src="${val}" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<span style=\\'color:#ef4444; font-size:0.8rem;\\'>Invalid Image URL</span>'">`;
+      } else {
+        previewBox.innerHTML = `<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>`;
+      }
+    };
+
+    // Preset Image URL applier
+    window.applyPresetUrl = function(url, targetInputId = 'modalImgUrl', previewBoxId = 'modalImgPreview') {
+      const target = document.getElementById(targetInputId);
+      if (target) {
+        target.value = url;
+        handleUrlPreview(target, previewBoxId);
+        showToast('Preset image URL applied!', 'success');
+      }
+    };
+
+    // Clear Image URL
+    window.clearImageUrl = function(targetInputId = 'modalImgUrl', previewBoxId = 'modalImgPreview') {
+      const target = document.getElementById(targetInputId);
+      if (target) {
+        target.value = '';
+        handleUrlPreview(target, previewBoxId);
+      }
+    };
+
+    // Render all Admin collections
+    function renderAdminDashboard() {
+      const data = AirDreamStore.getData();
+
+      // Update Badges & Counters
+      document.getElementById('statWallpapers').textContent = (data.wallpapers || []).length;
+      document.getElementById('statAttractions').textContent = (data.attractions || []).length;
+      document.getElementById('statGallery').textContent = (data.gallery || []).length;
+      document.getElementById('statTours').textContent = (data.tours || []).length;
+      document.getElementById('statTransfers').textContent = (data.transfers || []).length;
+      document.getElementById('statPackages').textContent = (data.packages || []).length;
+
+      document.getElementById('badgeWallpapers').textContent = (data.wallpapers || []).length;
+      document.getElementById('badgeAttractions').textContent = (data.attractions || []).length;
+      document.getElementById('badgeGallery').textContent = (data.gallery || []).length;
+      document.getElementById('badgeTours').textContent = (data.tours || []).length;
+      document.getElementById('badgeTransfers').textContent = (data.transfers || []).length;
+      document.getElementById('badgePackages').textContent = (data.packages || []).length;
+      document.getElementById('badgeReviews').textContent = (data.reviews || []).length;
+
+      // 1. Render Wallpapers List
+      renderWallpapers(data.wallpapers || []);
+
+      // 2. Render Attractions
+      renderAttractions(data.attractions || []);
+
+      // 3. Render Gallery
+      renderGallery(data.gallery || []);
+
+      // 4. Render Tours
+      renderTours(data.tours || []);
+
+      // 5. Render Transfers
+      renderTransfers(data.transfers || []);
+
+      // 6. Render Packages
+      renderPackages(data.packages || []);
+
+      // 7. Render Reviews
+      renderReviews(data.reviews || []);
+
+      // 8. Populate Settings
+      populateSettings(data.settings || {});
+    }
+
+    // 1. Wallpapers Renderer
+    function renderWallpapers(wallpapers) {
+      const container = document.getElementById('wallpapersListContainer');
+      if (!wallpapers.length) {
+        container.innerHTML = `<p style="color:#64748b; font-size:0.9rem;">No hero wallpaper slides yet. Click "Add New Slide" above.</p>`;
+        return;
+      }
+      container.innerHTML = wallpapers.map((w, idx) => `
+        <div class="wallpaper-row">
+          <img src="${w.image}" alt="${w.title}" class="wallpaper-thumb" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=300&q=80'">
+          <div class="wallpaper-info">
+            <span class="wallpaper-badge"><i class="fa-solid ${w.badgeIcon || 'fa-plane'}"></i> ${w.badge || 'Slide ' + (idx + 1)}</span>
+            <h3>${w.title} <span style="color:#0284c7;">${w.highlight || ''}</span></h3>
+            <p>${w.desc || ''}</p>
+          </div>
+          <div class="wallpaper-actions">
+            <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('wallpaper', '${w.id}')">
+              <i class="fa-solid fa-pen-to-square"></i> Edit
+            </button>
+            <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('wallpapers', '${w.id}')">
+              <i class="fa-solid fa-trash-can"></i> Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }    // 2. Attractions Renderer
+    function renderAttractions(attractions) {
+      const container = document.getElementById('attractionsListContainer');
+      const searchVal = (document.getElementById('searchAttractions').value || '').toLowerCase();
+      const filtered = attractions.filter(a => 
+        (a.name || '').toLowerCase().includes(searchVal) || 
+        (a.activities || '').toLowerCase().includes(searchVal)
+      );
+
+      if (!filtered.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No attractions found matching "${searchVal}".</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(a => `
+        <div class="item-card">
+          <div class="item-card-image">
+            <img src="${a.image}" alt="${a.name}" onerror="this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=700&q=80'">
+            <div class="item-price-tag">${a.price || '$45'}</div>
+          </div>
+          <div class="item-card-body">
+            <h3 class="item-card-title">${a.name}</h3>
+            <p class="item-card-sub"><i class="fa-regular fa-compass"></i> ${a.activities || 'Activities available'}</p>
+            <div style="margin: 8px 0 6px;">
+              <button type="button" class="btn-book-tour" style="width:100%; pointer-events:none; justify-content:center;">
+                <i class="fa-solid fa-ticket"></i> ${a.btnText || 'Book Now'}
+              </button>
+            </div>
+            <div class="item-card-actions">
+              <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('attraction', '${a.id}')">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('attractions', '${a.id}')">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 3. Gallery Renderer
+    function renderGallery(gallery) {
+      const container = document.getElementById('galleryListContainer');
+      if (!gallery.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No gallery pictures yet. Click "Add Picture" above.</p>`;
+        return;
+      }
+      container.innerHTML = gallery.map(g => `
+        <div class="item-card">
+          <div class="item-card-image" style="height: 200px;">
+            <img src="${g.image}" alt="${g.title}" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80'">
+            <div class="item-badge-pill"><i class="fa-solid ${g.icon || 'fa-camera'}"></i> Salalah</div>
+          </div>
+          <div class="item-card-body">
+            <h3 class="item-card-title">${g.title}</h3>
+            <div style="margin: 8px 0 6px;">
+              <button type="button" class="btn-book-tour" style="width:100%; pointer-events:none; justify-content:center;">
+                <i class="fa-solid fa-ticket"></i> ${g.btnText || 'Inquire Now'}
+              </button>
+            </div>
+            <div class="item-card-actions">
+              <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('gallery', '${g.id}')">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('gallery', '${g.id}')">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 4. Tours Renderer
+    function renderTours(tours) {
+      const container = document.getElementById('toursListContainer');
+      const searchVal = (document.getElementById('searchTours').value || '').toLowerCase();
+      const filtered = tours.filter(t => 
+        (t.title || '').toLowerCase().includes(searchVal) ||
+        (t.location || '').toLowerCase().includes(searchVal)
+      );
+
+      if (!filtered.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No tours found.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(t => `
+        <div class="item-card">
+          <div class="item-card-image">
+            <img src="${t.image}" alt="${t.title}" onerror="this.src='https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80'">
+            <div class="item-badge-pill"><i class="fa-solid fa-location-dot"></i> ${t.location || 'Salalah'}</div>
+            <div class="item-price-tag">${t.price || '120$'}/person</div>
+          </div>
+          <div class="item-card-body">
+            <h3 class="item-card-title">${t.title}</h3>
+            <div class="item-features-list">
+              <span class="feature-pill"><i class="fa-regular fa-clock"></i> ${t.duration || '08-Hrs'}</span>
+              <span class="feature-pill"><i class="fa-solid fa-user-tie"></i> ${t.driver || 'Driver-guide'}</span>
+              <span class="feature-pill"><i class="fa-solid fa-users"></i> ${t.passengers || '3'} Seats</span>
+              <span class="feature-pill"><i class="fa-solid fa-star text-gold"></i> ${t.rating || '5'}</span>
+            </div>
+            <div style="margin: 8px 0 6px;">
+              <button type="button" class="btn-book-tour" style="width:100%; pointer-events:none; justify-content:center;">
+                <i class="fa-solid fa-ticket"></i> ${t.btnText || 'Book Now'}
+              </button>
+            </div>
+            <div class="item-card-actions">
+              <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('tour', '${t.id}')">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('tours', '${t.id}')">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 5. Transfers Renderer
+    function renderTransfers(transfers) {
+      const container = document.getElementById('transfersListContainer');
+      if (!transfers.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No transfer vehicles yet. Click "Add Vehicle Transfer".</p>`;
+        return;
+      }
+
+      container.innerHTML = transfers.map(tr => `
+        <div class="item-card">
+          <div class="item-card-image" style="background:#f8fafc; display:flex; align-items:center; justify-content:center; padding:12px;">
+            <img src="${tr.image}" alt="${tr.title}" style="object-fit:contain; max-height:100%;" onerror="this.src='assets/vehicles/toyota-land-cruiser.svg'">
+            <div class="item-price-tag">${tr.price || '55$'}</div>
+          </div>
+          <div class="item-card-body">
+            <h3 class="item-card-title">${tr.title}</h3>
+            <div class="item-features-list">
+              <span class="feature-pill"><i class="fa-solid fa-users"></i> ${tr.passengers || 4} Passengers</span>
+              <span class="feature-pill"><i class="fa-solid fa-suitcase"></i> ${tr.luggage || 4} Luggage</span>
+            </div>
+            <div style="margin: 8px 0 6px;">
+              <button type="button" class="btn-book-tour" style="width:100%; pointer-events:none; justify-content:center;">
+                <i class="fa-solid fa-ticket"></i> ${tr.btnText || 'Book Now'}
+              </button>
+            </div>
+            <div class="item-card-actions">
+              <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('transfer', '${tr.id}')">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('transfers', '${tr.id}')">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 6. Packages Renderer
+    function renderPackages(packages) {
+      const container = document.getElementById('packagesListContainer');
+      if (!packages.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No packages yet. Click "Add Package".</p>`;
+        return;
+      }
+
+      container.innerHTML = packages.map(pkg => `
+        <div class="item-card">
+          <div class="item-card-image">
+            <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=700&q=80'">
+            <div class="item-badge-pill">${pkg.badge || 'Featured'}</div>
+            <div class="item-price-tag">${pkg.price || '$999'}</div>
+          </div>
+          <div class="item-card-body">
+            <h3 class="item-card-title">${pkg.title}</h3>
+            <p class="item-card-sub"><i class="fa-regular fa-calendar-days"></i> ${pkg.duration || '7 Days'}</p>
+            <div class="item-features-list">
+              ${(pkg.inclusions || []).slice(0, 3).map(inc => `<span class="feature-pill"><i class="fa-solid fa-check text-green"></i> ${inc}</span>`).join('')}
+            </div>
+            <div style="margin: 8px 0 6px;">
+              <button type="button" class="btn-book-tour" style="width:100%; pointer-events:none; justify-content:center;">
+                <i class="fa-solid fa-ticket"></i> ${pkg.btnText || 'Book Now'}
+              </button>
+            </div>
+            <div class="item-card-actions">
+              <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('package', '${pkg.id}')">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('packages', '${pkg.id}')">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 7. Reviews Renderer
+    function renderReviews(reviews) {
+      const container = document.getElementById('reviewsListContainer');
+      if (!reviews.length) {
+        container.innerHTML = `<p style="grid-column:1/-1; color:#64748b; font-size:0.9rem;">No reviews yet. Click "Add Review".</p>`;
+        return;
+      }
+
+      container.innerHTML = reviews.map(rev => `
+        <div class="review-admin-card">
+          <div class="review-admin-header">
+            <img src="${rev.avatar}" alt="${rev.name}" class="review-admin-avatar" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=200&q=80'">
+            <div class="review-admin-author">
+              <h4>${rev.name}</h4>
+              <div class="review-admin-stars">
+                ${'★'.repeat(rev.stars || 5)}${'☆'.repeat(5 - (rev.stars || 5))}
+              </div>
+            </div>
+          </div>
+          <p class="review-admin-quote">"${rev.quote}"</p>
+          <div class="item-card-actions">
+            <button type="button" class="btn-card-action btn-edit" onclick="openEditModal('review', '${rev.id}')">
+              <i class="fa-solid fa-pen-to-square"></i> Edit
+            </button>
+            <button type="button" class="btn-card-action btn-delete" onclick="handleDeleteItem('reviews', '${rev.id}')">
+              <i class="fa-solid fa-trash-can"></i> Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 8. Settings Populator
+    function populateSettings(settings) {
+      document.getElementById('setBrandName').value = settings.brandName || '';
+      document.getElementById('setBrandTagline').value = settings.brandTagline || '';
+      document.getElementById('setLogoUrl').value = settings.logoUrl || 'assets/air-dream-badge.svg';
+      document.getElementById('setPhone').value = settings.phone || '';
+      document.getElementById('setWhatsapp').value = settings.whatsapp || '';
+      document.getElementById('setEmail').value = settings.email || '';
+      document.getElementById('setAddress').value = settings.address || '';
+      document.getElementById('setAboutQuote').value = settings.aboutQuote || '';
+      document.getElementById('setAboutArchImg').value = settings.aboutArchImg || '';
+      document.getElementById('setBubble1Img').value = settings.bubble1Img || '';
+      document.getElementById('setBubble2Img').value = settings.bubble2Img || '';
+      document.getElementById('setBubble3Img').value = settings.bubble3Img || '';
+
+      if (settings.logoUrl) {
+        document.getElementById('previewLogoImg').innerHTML = `<img src="${settings.logoUrl}" alt="Logo" style="width:100%; height:100%; object-fit:contain;">`;
+        document.getElementById('adminSidebarLogo').src = settings.logoUrl;
+        document.getElementById('loginBrandLogo').src = settings.logoUrl;
+      }
+      if (settings.aboutArchImg) {
+        document.getElementById('previewArchImg').innerHTML = `<img src="${settings.aboutArchImg}" alt="Arch" style="width:100%; height:100%; object-fit:cover;">`;
+      }
+    }
+
+    // ========================================================================
+    // MODAL FORM BUILDERS & HANDLERS (WITH IMAGE URL PRESETS & CONTROLS)
+    // ========================================================================
+    const modalBackdrop = document.getElementById('universalModalBackdrop');
+    const modalHeading = document.getElementById('modalHeading');
+    const modalDynamicBody = document.getElementById('modalDynamicBody');
+
+    function closeModal() {
+      modalBackdrop.classList.remove('open');
+      currentCollection = null;
+      editingItemId = null;
+    }
+
+    // Close on backdrop click
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    // OPEN ADD MODAL
+    window.openAddModal = function(type) {
+      currentCollection = type;
+      editingItemId = null;
+      modalHeading.textContent = `Add New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+      const submitBtn = document.getElementById('modalSubmitBtn');
+      if (submitBtn) {
+        submitBtn.innerHTML = `<i class="fa-solid fa-check"></i> Save Changes`;
+      }
+      buildModalForm(type, null);
+      modalBackdrop.classList.add('open');
+    };
+
+    // OPEN EDIT MODAL
+    window.openEditModal = function(type, id) {
+      currentCollection = type;
+      editingItemId = id;
+      modalHeading.textContent = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+      const submitBtn = document.getElementById('modalSubmitBtn');
+      if (submitBtn) {
+        submitBtn.innerHTML = `<i class="fa-solid fa-check"></i> Save Changes`;
+      }
+      
+      const collMap = {
+        wallpaper: 'wallpapers',
+        attraction: 'attractions',
+        gallery: 'gallery',
+        tour: 'tours',
+        transfer: 'transfers',
+        package: 'packages',
+        review: 'reviews'
+      };
+      const items = AirDreamStore.getData()[collMap[type]] || [];
+      const item = items.find(i => String(i.id) === String(id));
+      buildModalForm(type, item);
+      modalBackdrop.classList.add('open');
+    };
+
+    // Preset HTML Snippet
+    function getImagePresetsHtml() {
+      return `
+        <div class="image-url-presets">
+          <span style="font-size: 0.72rem; color: #64748B; font-weight: 600; width: 100%;">💡 Quick Image URL Presets (Click to apply):</span>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=700&q=80')">Burj Khalifa</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1634148545855-32a8427fefb3?auto=format&fit=crop&w=700&q=80')">Museum of Future</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80')">Desert Safari</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=700&q=80')">Palm View</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=700&q=80')">Salalah Fjords</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1570481662006-a3a1374699e8?auto=format&fit=crop&w=700&q=80')">Dolphins Marine</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=700&q=80')">Umrah Makkah</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=700&q=80')">Swiss Alps</button>
+          <button type="button" class="img-preset-chip" onclick="applyPresetUrl('https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=700&q=80')">Bali Villa</button>
+        </div>
+      `;
+    }
+
+    // Button Presets HTML Snippet
+    function getButtonPresetsHtml() {
+      return `
+        <div class="image-url-presets" style="margin-top: 6px;">
+          <span style="font-size: 0.72rem; color: #64748B; font-weight: 600; width: 100%;">💡 Quick Button Text (Click to apply):</span>
+          <button type="button" class="img-preset-chip" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Book Now</button>
+          <button type="button" class="img-preset-chip" onclick="document.getElementById('modalBtnText').value = 'Inquire Now'">Inquire Now</button>
+          <button type="button" class="img-preset-chip" onclick="document.getElementById('modalBtnText').value = 'Book Ticket'">Book Ticket</button>
+          <button type="button" class="img-preset-chip" onclick="document.getElementById('modalBtnText').value = 'View Details'">View Details</button>
+          <button type="button" class="img-preset-chip" onclick="document.getElementById('modalBtnText').value = 'Request Quote'">Request Quote</button>
+        </div>
+      `;
+    }
+
+    // BUILD DYNAMIC MODAL FORM FIELDS
+    function buildModalForm(type, item = {}) {
+      item = item || {};
+
+      if (type === 'wallpaper') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Badge Text</label>
+              <input type="text" class="form-control" name="badge" value="${item.badge || 'Premium Booking'}" required>
+            </div>
+            <div class="form-field">
+              <label>Badge Icon (FontAwesome class)</label>
+              <input type="text" class="form-control" name="badgeIcon" value="${item.badgeIcon || 'fa-plane'}" placeholder="fa-plane, fa-kaaba, fa-compass">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Heading Title</label>
+              <input type="text" class="form-control" name="title" value="${item.title || 'Fly Anywhere at the'}" required>
+            </div>
+            <div class="form-field">
+              <label>Highlight Text (Colored)</label>
+              <input type="text" class="form-control" name="highlight" value="${item.highlight || 'Best Fares'}" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Subtitle Description</label>
+            <textarea class="form-control" name="desc" rows="3">${item.desc || ''}</textarea>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label><i class="fa-solid fa-ticket"></i> Button Text</label>
+              <input type="text" class="form-control" name="primaryBtnText" id="modalBtnText" value="${item.primaryBtnText || 'Book Now'}" placeholder="e.g. Book Now">
+            </div>
+            <div class="form-field">
+              <label>Button Link Target</label>
+              <input type="text" class="form-control" name="primaryBtnLink" value="${item.primaryBtnLink || '#packages'}" placeholder="#packages">
+            </div>
+          </div>
+          ${getButtonPresetsHtml()}
+          <div class="form-field" style="margin-top: 14px;">
+            <label>Wallpaper Background Image URL or Upload</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Paste image URL here..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              ${getImagePresetsHtml()}
+            </div>
+          </div>
+        `;
+      } 
+      else if (type === 'attraction') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-field">
+            <label>Attraction Name</label>
+            <input type="text" class="form-control" name="name" value="${item.name || ''}" placeholder="e.g. Burj Khalifa, Dubai Frame" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Activities Count</label>
+              <input type="text" class="form-control" name="activities" value="${item.activities || '120 activities'}" placeholder="e.g. 145 activities" required>
+            </div>
+            <div class="form-field">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="${item.price || '$45'}" placeholder="e.g. $95" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label><i class="fa-solid fa-ticket"></i> Card Button Text</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-control" name="btnText" id="modalBtnText" value="${item.btnText || 'Book Now'}" placeholder="e.g. Book Now" style="flex:1;">
+              <button type="button" class="btn-admin btn-admin-outline" style="white-space:nowrap; padding:6px 12px; font-size:0.8rem;" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Set "Book Now"</button>
+            </div>
+            ${getButtonPresetsHtml()}
+          </div>
+          <div class="form-field">
+            <label>Attraction Photo (URL or File Upload)</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Paste image URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              ${getImagePresetsHtml()}
+            </div>
+          </div>
+        `;
+      }
+      else if (type === 'gallery') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-field">
+            <label>Photo Caption / Title</label>
+            <input type="text" class="form-control" name="title" value="${item.title || ''}" placeholder="e.g. Rub Al Khali Sand Dunes" required>
+          </div>
+          <div class="form-field">
+            <label>Icon (FontAwesome)</label>
+            <input type="text" class="form-control" name="icon" value="${item.icon || 'fa-camera'}" placeholder="fa-mountain-sun, fa-compass, fa-water">
+          </div>
+          <div class="form-field">
+            <label><i class="fa-solid fa-ticket"></i> Card Button Text</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-control" name="btnText" id="modalBtnText" value="${item.btnText || 'Inquire Now'}" placeholder="e.g. Inquire Now" style="flex:1;">
+              <button type="button" class="btn-admin btn-admin-outline" style="white-space:nowrap; padding:6px 12px; font-size:0.8rem;" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Set "Book Now"</button>
+            </div>
+            ${getButtonPresetsHtml()}
+          </div>
+          <div class="form-field">
+            <label>Picture Image (URL or Local File Upload)</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Paste image URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              ${getImagePresetsHtml()}
+            </div>
+          </div>
+        `;
+      }
+      else if (type === 'tour') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-field">
+            <label>Tour Title</label>
+            <input type="text" class="form-control" name="title" value="${item.title || ''}" placeholder="e.g. Sunset Desert Safari with Barbecue Dinner" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Location</label>
+              <input type="text" class="form-control" name="location" value="${item.location || 'Salalah'}" required>
+            </div>
+            <div class="form-field">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="${item.price || '120$'}" placeholder="e.g. 120$" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Duration</label>
+              <input type="text" class="form-control" name="duration" value="${item.duration || '08-Hrs'}" placeholder="e.g. 08-Hrs">
+            </div>
+            <div class="form-field">
+              <label>Car / Guide Info</label>
+              <input type="text" class="form-control" name="driver" value="${item.driver || 'Driver-guide'}">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Passenger Capacity</label>
+              <input type="number" class="form-control" name="passengers" value="${item.passengers || 3}" min="1">
+            </div>
+            <div class="form-field">
+              <label>Rating (1-5)</label>
+              <input type="number" class="form-control" name="rating" value="${item.rating || 5}" min="1" max="5">
+            </div>
+          </div>
+          <div class="form-field">
+            <label><i class="fa-solid fa-ticket"></i> Card Button Text</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-control" name="btnText" id="modalBtnText" value="${item.btnText || 'Book Now'}" placeholder="e.g. Book Now" style="flex:1;">
+              <button type="button" class="btn-admin btn-admin-outline" style="white-space:nowrap; padding:6px 12px; font-size:0.8rem;" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Set "Book Now"</button>
+            </div>
+            ${getButtonPresetsHtml()}
+          </div>
+          <div class="form-field">
+            <label>Tour Image URL or Upload</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Image URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              ${getImagePresetsHtml()}
+            </div>
+          </div>
+        `;
+      }
+      else if (type === 'transfer') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-field">
+            <label>Vehicle Name &amp; Model</label>
+            <input type="text" class="form-control" name="title" value="${item.title || ''}" placeholder="e.g. Toyota Prado – 4WD SUV" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Passenger Seats</label>
+              <input type="number" class="form-control" name="passengers" value="${item.passengers || 4}" min="1" required>
+            </div>
+            <div class="form-field">
+              <label>Luggage Capacity</label>
+              <input type="number" class="form-control" name="luggage" value="${item.luggage || 3}" min="1" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Transfer Price</label>
+            <input type="text" class="form-control" name="price" value="${item.price || '55$'}" placeholder="e.g. 55$" required>
+          </div>
+          <div class="form-field">
+            <label><i class="fa-solid fa-ticket"></i> Card Button Text</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-control" name="btnText" id="modalBtnText" value="${item.btnText || 'Book Now'}" placeholder="e.g. Book Now" style="flex:1;">
+              <button type="button" class="btn-admin btn-admin-outline" style="white-space:nowrap; padding:6px 12px; font-size:0.8rem;" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Set "Book Now"</button>
+            </div>
+            ${getButtonPresetsHtml()}
+          </div>
+          <div class="form-field">
+            <label>Vehicle Image URL or Upload</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:contain;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Image URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              <div class="image-url-presets">
+                <button type="button" class="img-preset-chip" onclick="applyPresetUrl('assets/vehicles/toyota-land-cruiser.svg')">Land Cruiser</button>
+                <button type="button" class="img-preset-chip" onclick="applyPresetUrl('assets/vehicles/toyota-prado.svg')">Toyota Prado</button>
+                <button type="button" class="img-preset-chip" onclick="applyPresetUrl('assets/vehicles/nissan-altima.svg')">Nissan Altima</button>
+                <button type="button" class="img-preset-chip" onclick="applyPresetUrl('assets/vehicles/mercedes-v-class.svg')">Mercedes V-Class</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      else if (type === 'package') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-field">
+            <label>Package Title</label>
+            <input type="text" class="form-control" name="title" value="${item.title || ''}" placeholder="e.g. 5-Star VIP Executive Umrah Package" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Category</label>
+              <select class="form-control" name="category">
+                <option value="umrah" ${item.category === 'umrah' ? 'selected' : ''}>Umrah &amp; Hajj</option>
+                <option value="holidays" ${item.category === 'holidays' ? 'selected' : ''}>Holiday Tour</option>
+                <option value="flights" ${item.category === 'flights' ? 'selected' : ''}>Flight Booking</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Badge Pill</label>
+              <input type="text" class="form-control" name="badge" value="${item.badge || 'Popular'}" placeholder="e.g. Top Seller, Honeymoon Special">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Duration</label>
+              <input type="text" class="form-control" name="duration" value="${item.duration || '7 Days / 6 Nights'}" placeholder="e.g. 14 Days / 13 Nights">
+            </div>
+            <div class="form-field">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="${item.price || '$999'}" placeholder="e.g. $1,199" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label><i class="fa-solid fa-ticket"></i> Package Button Text</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-control" name="btnText" id="modalBtnText" value="${item.btnText || 'Book Now'}" placeholder="e.g. Book Now" style="flex:1;">
+              <button type="button" class="btn-admin btn-admin-outline" style="white-space:nowrap; padding:6px 12px; font-size:0.8rem;" onclick="document.getElementById('modalBtnText').value = 'Book Now'">Set "Book Now"</button>
+            </div>
+            ${getButtonPresetsHtml()}
+          </div>
+          <div class="form-field">
+            <label>Inclusions (comma separated)</label>
+            <input type="text" class="form-control" name="inclusions" value="${(item.inclusions || []).join(', ')}" placeholder="5-Star Hotels, Direct Flights, Private Chauffeur, Ziyarat Tours">
+          </div>
+          <div class="form-field">
+            <label>Package Cover Image URL or Upload</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview">
+                ${item.image ? `<img src="${item.image}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="image" value="${item.image || ''}" placeholder="Image URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+              ${getImagePresetsHtml()}
+            </div>
+          </div>
+        `;
+      }
+      else if (type === 'review') {
+        modalDynamicBody.innerHTML = `
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Reviewer Name</label>
+              <input type="text" class="form-control" name="name" value="${item.name || ''}" placeholder="e.g. Bhavesh S" required>
+            </div>
+            <div class="form-field">
+              <label>Star Rating (1-5)</label>
+              <input type="number" class="form-control" name="stars" value="${item.stars || 5}" min="1" max="5" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Review Quote</label>
+            <textarea class="form-control" name="quote" rows="3" placeholder="Share your experience..." required>${item.quote || ''}</textarea>
+          </div>
+          <div class="form-field">
+            <label>Avatar Photo URL or Upload</label>
+            <div class="image-input-group">
+              <div class="image-preview-box" id="modalImgPreview" style="height: 100px;">
+                ${item.avatar ? `<img src="${item.avatar}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">` : '<span class="image-preview-placeholder"><i class="fa-regular fa-image"></i> Preview</span>'}
+              </div>
+              <div class="image-input-controls">
+                <input type="text" class="form-control" id="modalImgUrl" name="avatar" value="${item.avatar || ''}" placeholder="Avatar URL..." style="flex:1;" oninput="handleUrlPreview(this, 'modalImgPreview')">
+                <button type="button" class="btn-card-action btn-delete" style="max-width:38px; padding:0;" onclick="clearImageUrl('modalImgUrl', 'modalImgPreview')" title="Clear URL"><i class="fa-solid fa-xmark"></i></button>
+                <label class="file-upload-btn-label">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                  <input type="file" accept="image/*" onchange="handleFileUpload(this, 'modalImgUrl', 'modalImgPreview')">
+                </label>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // FORM SUBMIT HANDLER FOR MODAL
+    document.getElementById('universalModalForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const dataObj = {};
+      formData.forEach((val, key) => {
+        dataObj[key] = val;
+      });
+
+      // Special field processing
+      if (dataObj.inclusions && typeof dataObj.inclusions === 'string') {
+        dataObj.inclusions = dataObj.inclusions.split(',').map(s => s.trim()).filter(Boolean);
+      }
+      if (dataObj.passengers) dataObj.passengers = parseInt(dataObj.passengers, 10);
+      if (dataObj.luggage) dataObj.luggage = parseInt(dataObj.luggage, 10);
+      if (dataObj.stars) dataObj.stars = parseInt(dataObj.stars, 10);
+      if (dataObj.rating) dataObj.rating = parseFloat(dataObj.rating);
+
+      const collMap = {
+        wallpaper: 'wallpapers',
+        attraction: 'attractions',
+        gallery: 'gallery',
+        tour: 'tours',
+        transfer: 'transfers',
+        package: 'packages',
+        review: 'reviews'
+      };
+      const collName = collMap[currentCollection];
+
+      if (editingItemId) {
+        // Update existing item
+        AirDreamStore.updateItem(collName, editingItemId, dataObj);
+        showToast(`Updated ${currentCollection} successfully!`, 'success');
+      } else {
+        // Add new item
+        AirDreamStore.addItem(collName, dataObj);
+        showToast(`Added new ${currentCollection} successfully!`, 'success');
+      }
+
+      closeModal();
+      renderAdminDashboard();
+    });
+
+    // DELETE ITEM HANDLER
+    window.handleDeleteItem = function(collection, id) {
+      if (confirm('Are you sure you want to delete this item? This action will immediately update your website.')) {
+        AirDreamStore.deleteItem(collection, id);
+        showToast('Item deleted successfully.', 'success');
+        renderAdminDashboard();
+      }
+    };
+
+    // SAVE SITE SETTINGS HANDLER
+    document.getElementById('siteSettingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const newSettings = {};
+      formData.forEach((val, key) => {
+        newSettings[key] = val;
+      });
+
+      AirDreamStore.updateSettings(newSettings);
+      showToast('Site settings updated & saved successfully!', 'success');
+      renderAdminDashboard();
+    });
+
+    // EXPORT JSON
+    document.getElementById('btnExportData').addEventListener('click', () => {
+      AirDreamStore.exportJSON();
+      showToast('Website data backup downloaded successfully!', 'success');
+    });
+
+    // IMPORT JSON
+    document.getElementById('importFileInput').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          AirDreamStore.importJSON(evt.target.result);
+          showToast('Backup JSON imported successfully!', 'success');
+          renderAdminDashboard();
+        } catch (err) {
+          showToast('Failed to import JSON: ' + err.message, 'error');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // RESET TO DEFAULTS
+    document.getElementById('btnResetData').addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all data to initial defaults? Custom changes will be cleared.')) {
+        AirDreamStore.resetToDefaults();
+        showToast('Reset to factory defaults successfully!', 'success');
+        renderAdminDashboard();
+      }
+    });
+
+    // Search inputs real-time filtering
+    document.getElementById('searchAttractions').addEventListener('input', () => {
+      renderAttractions(AirDreamStore.getData().attractions || []);
+    });
+    document.getElementById('searchTours').addEventListener('input', () => {
+      renderTours(AirDreamStore.getData().tours || []);
+    });
+
+    // Subscribe to cross-tab storage changes
+    AirDreamStore.subscribe(() => {
+      renderAdminDashboard();
+    });
+
+    // Initial load: check authentication first
+    checkAuthStatus();
+  </script>
+</body>
+</html>
